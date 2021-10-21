@@ -1,0 +1,79 @@
+{
+  "nodes": {
+    "easy-purescript-nix-source": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1631961521,
+        "narHash": "sha256-1yPjUdOYzw1+UGFzBXbyZqEbsM6XZu/6+v8W35qFdLo=",
+        "owner": "justinwoo",
+        "repo": "easy-purescript-nix",
+        "rev": "d9a37c75ed361372e1545f6efbc08d819b3c28c8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "justinwoo",
+        "repo": "easy-purescript-nix",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1631561581,
+        "narHash": "sha256-3VQMV5zvxaVLvqqUrNz3iJelLw30mIVSfZmAaauM3dA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "7e5bf3925f6fbdfaf50a2a7ca0be2879c4261d19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gitignore": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1634151530,
+        "narHash": "sha256-l1wnu/jSxhj6+MGurKupKkWZh3Om/6FuYc/FdSlkyRI=",
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "rev": "9e80c4d83026fa6548bc53b1a6fab8549a6991f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "gitignore.nix",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1634301554,
+        "narHash": "sha256-yx2NECo6Jrx8mpvEyeeUb98jxlKXeADdqbWkD05LikE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7ee297f96d0a1c5008e00015d4f28280545c04eb",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "easy-purescript-nix-source": "easy-purescript-nix-source",
+        "flake-utils": "flake-utils",
+        "gitignore": "gitignore",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
