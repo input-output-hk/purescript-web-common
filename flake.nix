@@ -7,6 +7,10 @@
       url = "github:nix-community/rnix-lsp";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     easy-purescript-nix-source = {
       url = "github:justinwoo/easy-purescript-nix";
       flake = false;
@@ -23,86 +27,110 @@
     , flake-utils
     , gitignore
     , nixpkgs
+    , pre-commit-hooks
     , rnix-lsp
     }:
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ]
-      ( system:
-        let
+      (system:
+      let
 
-          pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs { inherit system; };
 
-          easy-ps = import easy-purescript-nix-source { inherit pkgs; };
+        easy-ps = import easy-purescript-nix-source { inherit pkgs; };
 
-          spagoPkgs = import ./spago-packages.nix { inherit pkgs; };
+        spagoPkgs = import ./spago-packages.nix { inherit pkgs; };
 
-          inherit (gitignore.lib) gitignoreSource;
+        inherit (gitignore.lib) gitignoreSource;
 
-          inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
+        inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
 
-          getGlob = { name, version }: ''".spago/${name}/${version}/src/**/*.purs"'';
+        getGlob = { name, version, ... }: ''".spago/${name}/${version}/src/**/*.purs"'';
 
-          spagoSources =
-            builtins.toString
-              (builtins.map getGlob (builtins.attrValues spagoPkgs.inputs));
+        spagoSources =
+          builtins.toString
+            (builtins.map getGlob (builtins.attrValues spagoPkgs.inputs));
 
-          src = gitignoreSource ./.;
+        src = gitignoreSource ./.;
 
-          webCommon =
-            pkgs.stdenv.mkDerivation {
-              name = "purescript-bridge-json-helpers";
-              buildInputs = [
-                spagoPkgs.installSpagoStyle
-              ];
-              nativeBuildInputs = [
-                psa
-                purs
-                spago
-              ];
-              inherit src;
-              unpackPhase = ''
-                cp $src/spago.dhall .
-                cp $src/packages.dhall .
-                cp -r $src/src .
-                install-spago-style
-                '';
-              buildPhase = ''
-                set -e
-                echo building project...
-                psa compile --strict --censor-lib ${spagoSources} ./src/**/*.purs
-                echo done.
-                '';
-              installPhase = ''
-                mkdir $out
-                mv output $out/
-                '';
+        purs-tidy-hook = {
+          enable = true;
+          name = "purs-tidy";
+          entry = "purs-tidy format-in-place";
+          files = "\\.purs$";
+          language = "system";
+        };
+
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          inherit src;
+          hooks = {
+            nixpkgs-fmt = {
+              enable = true;
+              excludes = [ ".*spago-packages.nix$" ];
             };
+            inherit purs-tidy-hook;
+          };
+        };
 
-          clean = pkgs.writeShellScriptBin "clean" ''
-            set -e
-            echo cleaning project...
-            rm -rf .spago .spago2nix output
-            echo removed .spago
-            echo removed .spago2nix
-            echo removed output
-            echo done.
+        webCommon =
+          pkgs.stdenv.mkDerivation {
+            name = "web-common";
+            buildInputs = [
+              spagoPkgs.installSpagoStyle
+            ];
+            nativeBuildInputs = [
+              psa
+              purs
+              spago
+            ];
+            inherit src;
+            unpackPhase = ''
+              cp $src/spago.dhall .
+              cp $src/packages.dhall .
+              cp -r $src/src .
+              install-spago-style
             '';
+            buildPhase = ''
+              set -e
+              echo building project...
+              psa compile --strict --censor-lib ${spagoSources} ./src/**/*.purs
+              echo done.
+            '';
+            installPhase = ''
+              mkdir $out
+              mv output $out/
+            '';
+          };
 
-        in
-          {
-            packages = { inherit webCommon; };
-            defaultPackage = webCommon;
-            devShell = pkgs.mkShell {
-              buildInputs = [
-                clean
-                psa
-                purescript-language-server
-                purs
-                purs-tidy
-                rnix-lsp.defaultPackage."${system}"
-                spago
-                spago2nix
-              ];
-            };
-          }
+        clean = pkgs.writeShellScriptBin "clean" ''
+          set -e
+          echo cleaning project...
+          rm -rf .spago .spago2nix output
+          echo removed .spago
+          echo removed .spago2nix
+          echo removed output
+          echo done.
+        '';
+
+      in
+      {
+        packages = { inherit webCommon; };
+        checks = {
+          inherit pre-commit-check;
+        };
+        defaultPackage = webCommon;
+        devShell = pkgs.mkShell {
+          buildInputs = [
+            clean
+            psa
+            purescript-language-server
+            purs
+            purs-tidy
+            rnix-lsp.defaultPackage."${system}"
+            spago
+            spago2nix
+          ];
+          inherit (pre-commit-check) shellHook;
+        };
+      }
       );
 }

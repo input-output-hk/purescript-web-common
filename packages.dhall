@@ -55,7 +55,7 @@ let additions =
             , "typelevel-prelude"
             ]
         , repo = "https://github.com/input-output-hk/purescript-bridge-json-helpers.git"
-        , version = "68265aaacc1a56c00a7625d424ff13d619681e5e"
+        , version = "5f95ac160d58473a77e9c42d612db4f3d7c176ea"
         }
     }
 

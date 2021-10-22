@@ -1,4 +1,5 @@
 .spago2nix
+.pre-commit-config.yaml
 /bower_components/
 /node_modules/
 /.pulp-cache/
