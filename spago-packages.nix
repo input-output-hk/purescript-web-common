@@ -1260,29 +1260,31 @@ let
 
   getStoreGlob = pkg: ''"${pkg.outPath}/src/**/*.purs"'';
 
-in {
+in
+{
   inherit inputs;
 
   installSpagoStyle = pkgs.writeShellScriptBin "install-spago-style" ''
-      set -e
-      echo installing dependencies...
-      ${builtins.toString (builtins.map cpPackage (builtins.attrValues inputs))}
-      echo "echo done."
+    set -e
+    echo installing dependencies...
+    ${builtins.toString (builtins.map cpPackage (builtins.attrValues inputs))}
+    echo "echo done."
   '';
 
   buildSpagoStyle = pkgs.writeShellScriptBin "build-spago-style" ''
-      set -e
-      echo building project...
-      purs compile ${builtins.toString (builtins.map getGlob (builtins.attrValues inputs))} "$@"
-      echo done.
+    set -e
+    echo building project...
+    purs compile ${builtins.toString (builtins.map getGlob (builtins.attrValues inputs))} "$@"
+    echo done.
   '';
 
   buildFromNixStore = pkgs.writeShellScriptBin "build-from-store" ''
-      set -e
-      echo building project using sources from nix store...
-      purs compile ${builtins.toString (
-        builtins.map getStoreGlob (builtins.attrValues inputs))} "$@"
-      echo done.
+          set -e
+          echo building project using sources from nix store...
+          purs compile ${builtins.toString (
+            builtins.map getStoreGlob (builtins.attrValues inputs)
+    )} "$@"
+          echo done.
   '';
 
   mkBuildProjectOutput =
