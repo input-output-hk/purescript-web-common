@@ -1,8 +1,12 @@
 {
-  description = "JSON helpers for code generated with PureScript Bridge";
+  description = "Common library for web development";
 
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
+    rnix-lsp = {
+      url = "github:nix-community/rnix-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     easy-purescript-nix-source = {
       url = "github:justinwoo/easy-purescript-nix";
       flake = false;
@@ -13,30 +17,48 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, easy-purescript-nix-source, gitignore }:
+  outputs =
+    { self
+    , easy-purescript-nix-source
+    , flake-utils
+    , gitignore
+    , nixpkgs
+    , rnix-lsp
+    }:
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ]
       ( system:
         let
+
           pkgs = import nixpkgs { inherit system; };
-          inherit (gitignore.lib) gitignoreSource;
+
+          easy-ps = import easy-purescript-nix-source { inherit pkgs; };
+
           spagoPkgs = import ./spago-packages.nix { inherit pkgs; };
-          getGlob = pkg: ''".spago/${pkg.name}/${pkg.version}/src/**/*.purs"'';
+
+          inherit (gitignore.lib) gitignoreSource;
+
+          inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
+
+          getGlob = { name, version }: ''".spago/${name}/${version}/src/**/*.purs"'';
+
           spagoSources =
             builtins.toString
               (builtins.map getGlob (builtins.attrValues spagoPkgs.inputs));
-          easy-ps = import easy-purescript-nix-source { inherit pkgs; };
-          purescriptMarkdown =
+
+          src = gitignoreSource ./.;
+
+          webCommon =
             pkgs.stdenv.mkDerivation {
               name = "purescript-bridge-json-helpers";
               buildInputs = [
                 spagoPkgs.installSpagoStyle
               ];
-              nativeBuildInputs = with easy-ps; [
+              nativeBuildInputs = [
                 psa
                 purs
                 spago
               ];
-              src = gitignoreSource ./.;
+              inherit src;
               unpackPhase = ''
                 cp $src/spago.dhall .
                 cp $src/packages.dhall .
@@ -54,6 +76,7 @@
                 mv output $out/
                 '';
             };
+
           clean = pkgs.writeShellScriptBin "clean" ''
             set -e
             echo cleaning project...
@@ -63,17 +86,19 @@
             echo removed output
             echo done.
             '';
+
         in
           {
-            packages = { inherit purescriptMarkdown; };
-            defaultPackage = purescriptMarkdown;
+            packages = { inherit webCommon; };
+            defaultPackage = webCommon;
             devShell = pkgs.mkShell {
-              buildInputs = with easy-ps; [
+              buildInputs = [
                 clean
                 psa
                 purescript-language-server
                 purs
                 purs-tidy
+                rnix-lsp.defaultPackage."${system}"
                 spago
                 spago2nix
               ];
