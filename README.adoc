@@ -1,0 +1,140 @@
+= https://github.com/input-output-hk/web-common[Common web development library]
+:email: plutus@iohk.io
+:author: Input Output HK Limited
+:toc: left
+:reproducible:
+
+This library is a collection of helpers used by various web apps in the Plutus
+and Marlowe ecosystem.
+
+== Working with the project
+
+=== How to submit an issue
+
+Issues can be filed in the https://github.com/input-output-hk/web-common/issues[GitHub Issue tracker].
+
+[[how-to-develop]]
+=== How to develop and contribute to the project
+
+See link:CONTRIBUTING{outfilesuffix}[CONTRIBUTING], which describes our processes in more detail including development environments;
+
+=== How to depend on the project from another PureScript project
+
+None of our libraries are on Bower, or in a spago package set. You can depend
+on this library by adding it to your project's spago package set as an
+additional dependency in your packages.dhall file:
+
++
+---
+web-common =
+  { dependencies = [] : List Text
+  , repo = "https://github.com/input-output-hk/web-common.git"
+  , version = "<commit-hash-you-want-to-pin>"
+  }
+---
++
+
+It will then be available to install in your project using `spago install web-common`
+
+=== How to depend on the static sources in this project
+
+TODO this needs to be resolved.
+
+[[prerequisites]]
+==== Prerequisites
+
+You can build the project either with `Nix` using the provided `nix-shell`
+(recommended) or by installing PureScript and spago.
+
+===== Nix
+
+Install https://nixos.org/nix/[Nix] (recommended). following the instructions on the https://nixos.org/nix/[Nix website].
+
+See <<nix-advice>> for further advice on using Nix.
+
+The project is built using `nix-build` (or `nix build` if you are a flakes user).
+
+From the project root directory, you can also run `nix-shell` (or `nix develop` if
+you use flakes) to drop into a development shell with all necessary tooling
+installed. Additionally, Lorri is supported if you are a Lorri user.
+
+===== Non-Nix
+
+You can build some of the Haskell packages without Nix, but this is not recommended and we don't guarantee that these prerequisites are sufficient.
+If you use Nix, these tools are provided for you via `shell.nix`, and you do *not* need to install them yourself.
+
+* You can install PureScript and Spago using `npm` or `yarn` (`npm i -g purescript spago` or `yarn gliobal add purescript spago`)
+
+You can build the project with `spago build`.
+
+[[nix-advice]]
+== Nix
+
+[[iohk-binary-cache]]
+=== How to set up the IOHK binary caches
+
+Adding the IOHK binary cache to your Nix configuration will speed up
+builds a lot, since many things will have been built already by our CI.
+
+If you find you are building packages that are not defined in this
+repository, or if the build seems to take a very long time then you may
+not have this set up properly.
+
+To set up the cache:
+
+. On non-NixOS, edit `/etc/nix/nix.conf` and add the following lines:
++
+----
+substituters        = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/
+trusted-public-keys = hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ= iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+----
++
+[NOTE]
+====
+If you don't have an `/etc/nix/nix.conf` or don't want to edit it, you may add the `nix.conf` lines to `~/.config/nix/nix.conf` instead.
+You must be a https://nixos.org/nix/manual/#ssec-multi-user[trusted user] to do this.
+====
+. On NixOS, set the following NixOS options:
++
+----
+nix = {
+  binaryCaches          = [ "https://hydra.iohk.io" "https://iohk.cachix.org" ];
+  binaryCachePublicKeys = [ "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo=" ];
+};
+----
+
+
+=== Nix on macOS
+
+Nix on macOS can be a bit tricky. In particular, sandboxing is disabled by default, which can lead to strange failures.
+
+These days it should be safe to turn on sandboxing on macOS with a few exceptions. Consider setting the following Nix settings, in the same way as in xref:iohk-binary-cache[previous section]:
+
+----
+sandbox = true
+extra-sandbox-paths = /System/Library/Frameworks /System/Library/PrivateFrameworks /usr/lib /private/tmp /private/var/tmp /usr/bin/env
+----
+
+
+[[nix-build-attributes]]
+=== Which attributes to use to build different artifacts
+
+link:./default.nix[`default.nix`] defines a package set with attributes for all the artifacts you can build from this repository.
+These can be built using `nix build`.
+For example:
+
+----
+nix build -f default.nix docs.site
+----
+
+.Example attributes
+* Project packages: defined inside `marlowe.haskell.packages`
+** e.g. `marlowe.haskell.packages.marlowe.components.library`
+
+There are other attributes defined in link:./default.nix[`default.nix`].
+
+== Licensing
+
+You are free to copy, modify, and distribute Marlowe under the terms
+of the Apache 2.0 license. See the link:./LICENSE[LICENSE]
+and link:./NOTICE[NOTICE] files for details.
