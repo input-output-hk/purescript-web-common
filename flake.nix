@@ -92,7 +92,7 @@
             buildPhase = ''
               set -e
               echo building project...
-              psa compile --strict --censor-lib ${spagoSources} ./src/**/*.purs
+              psa compile --strict --censor-lib ${spagoSources} './src/**/*.purs'
               echo done.
             '';
             installPhase = ''
