@@ -55,7 +55,7 @@
         purs-tidy-hook = {
           enable = true;
           name = "purs-tidy";
-          entry = "purs-tidy format-in-place";
+          entry = "${purs-tidy}/bin/purs-tidy format-in-place";
           files = "\\.purs$";
           language = "system";
         };
