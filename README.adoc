@@ -24,15 +24,73 @@ None of our libraries are on Bower, or in a spago package set. You can depend
 on this library by adding it to your project's spago package set as an
 additional dependency in your packages.dhall file:
 
-+
 ---
 web-common =
-  { dependencies = [] : List Text
+  { dependencies =
+    [ "aff"
+    , "aff-promise"
+    , "affjax"
+    , "argonaut-codecs"
+    , "argonaut-core"
+    , "arrays"
+    , "avar"
+    , "bifunctors"
+    , "bigints"
+    , "concurrent-queues"
+    , "console"
+    , "control"
+    , "coroutines"
+    , "datetime"
+    , "debug"
+    , "dom-indexed"
+    , "effect"
+    , "either"
+    , "enums"
+    , "exceptions"
+    , "filterable"
+    , "foldable-traversable"
+    , "foreign"
+    , "foreign-object"
+    , "free"
+    , "freeap"
+    , "freet"
+    , "functions"
+    , "halogen"
+    , "halogen-subscriptions"
+    , "identity"
+    , "integers"
+    , "json-helpers"
+    , "lists"
+    , "markdown"
+    , "maybe"
+    , "newtype"
+    , "nullable"
+    , "ordered-collections"
+    , "parallel"
+    , "prelude"
+    , "profunctor"
+    , "profunctor-lenses"
+    , "psci-support"
+    , "rationals"
+    , "servant-support"
+    , "strings"
+    , "tailrec"
+    , "transformers"
+    , "tuples"
+    , "undefinable"
+    , "unfoldable"
+    , "unsafe-coerce"
+    , "uuid"
+    , "web-dom"
+    , "web-events"
+    , "web-html"
+    , "web-socket"
+    , "web-uievents"
+    ]
   , repo = "https://github.com/input-output-hk/web-common.git"
   , version = "<commit-hash-you-want-to-pin>"
   }
 ---
-+
 
 It will then be available to install in your project using `spago install web-common`
 
