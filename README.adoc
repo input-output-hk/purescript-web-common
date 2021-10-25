@@ -24,7 +24,7 @@ None of our libraries are on Bower, or in a spago package set. You can depend
 on this library by adding it to your project's spago package set as an
 additional dependency in your packages.dhall file:
 
----
+----
 web-common =
   { dependencies =
     [ "aff"
@@ -90,7 +90,7 @@ web-common =
   , repo = "https://github.com/input-output-hk/web-common.git"
   , version = "<commit-hash-you-want-to-pin>"
   }
----
+----
 
 It will then be available to install in your project using `spago install web-common`
 
