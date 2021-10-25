@@ -30,6 +30,7 @@ rec {
     , nixpkgs
     , pre-commit-hooks
     , rnix-lsp
+    , ...
     }:
     system:
     let
