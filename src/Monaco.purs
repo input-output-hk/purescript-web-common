@@ -4,7 +4,7 @@ import Prologue
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode (class DecodeJson)
 import Data.Argonaut.Encode (class EncodeJson, encodeJson)
-import Data.Argonaut.Encode.Aeson (Encoder, (>$<), (>|<))
+import Data.Argonaut.Encode.Aeson (Encoder)
 import Data.Argonaut.Encode.Aeson as E
 import Data.Function.Uncurried (Fn1, Fn2, Fn5, runFn1, runFn2, runFn5)
 import Data.Generic.Rep (class Generic)
@@ -56,27 +56,15 @@ data Action
 derive instance genericAction :: Generic Action _
 
 instance encodeAction :: EncodeJson Action where
-  encodeJson =
-    E.encode
-      $ E.sumType
-      $ toEither
-          >$< E.tagged "Action"
-            ( E.record
-                { token: E.value :: Encoder String
-                , next: E.maybe E.value
-                , log: E.maybe E.value
-                }
-            )
-          >|< E.tagged "Cases"
-            ( E.record
-                { cases: E.value :: Encoder (Object String)
-                , log: E.maybe E.value
-                }
-            )
-    where
-    toEither (Action x) = Left x
-
-    toEither (Cases x) = Right x
+  encodeJson (Action a) = E.encodeTagged "Action" a $ E.record
+    { token: E.value :: Encoder String
+    , next: E.maybe E.value
+    , log: E.maybe E.value
+    }
+  encodeJson (Cases a) = E.encodeTagged "Cases" a $ E.record
+    { cases: E.value :: Encoder (Object String)
+    , log: E.maybe E.value
+    }
 
 newtype LanguageRule
   = LanguageRule { regex :: Regex, action :: Action }

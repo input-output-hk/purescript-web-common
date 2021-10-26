@@ -28,7 +28,7 @@ let additions =
     , json-helpers =
         { dependencies = [] : List Text
         , repo = "https://github.com/input-output-hk/purescript-bridge-json-helpers.git"
-        , version = "5f95ac160d58473a77e9c42d612db4f3d7c176ea"
+        , version = "16de087fde6e2d07e6bdae51383131ab81efa82d"
         }
     }
 
