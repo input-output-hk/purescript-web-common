@@ -1,28 +1,4 @@
-rec {
-  description = "Common library for web development";
-
-  inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
-    rnix-lsp = {
-      url = "github:nix-community/rnix-lsp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    easy-purescript-nix-source = {
-      url = "github:justinwoo/easy-purescript-nix";
-      flake = false;
-    };
-    gitignore = {
-      url = "github:hercules-ci/gitignore.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (output inputs);
-
+let
   output =
     { self
     , easy-purescript-nix-source
@@ -120,8 +96,8 @@ rec {
     in
     {
       packages = { inherit webCommon; };
-      checks = {
-        inherit pre-commit-check;
+      hydraJobs = {
+        inherit webCommon pre-commit-check;
       };
       defaultPackage = webCommon;
       devShell = pkgs.mkShell {
@@ -139,4 +115,30 @@ rec {
         inherit (pre-commit-check) shellHook;
       };
     };
+in
+{
+  description = "Common library for web development";
+
+  inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+    rnix-lsp = {
+      url = "github:nix-community/rnix-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    easy-purescript-nix-source = {
+      url = "github:justinwoo/easy-purescript-nix";
+      flake = false;
+    };
+    gitignore = {
+      url = "github:hercules-ci/gitignore.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = inputs: inputs.flake-utils.lib.eachDefaultSystem (output inputs);
+
 }
