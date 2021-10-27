@@ -89,7 +89,7 @@ let
       fix-purs-tidy = pkgs.writeShellScriptBin "fix-purs-tidy" ''
         set -e
         echo formatting PureScript files...
-        purs-tidy format-in-place src/**/*.purs
+        purs-tidy format-in-place src/**/*.purs test/**/*.purs
         echo done.
       '';
 

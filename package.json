@@ -1,0 +1,6 @@
+{
+  "name": "web-common",
+  "dependencies": {
+    "big-integer": "^1.6.50"
+  }
+}
