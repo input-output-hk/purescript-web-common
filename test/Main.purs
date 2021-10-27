@@ -1,10 +1,12 @@
 module Test.Main where
 
 import Prologue
+
 import Data.Array.Extra.Spec (arrayExtraSpec)
+import Data.BigInt.Argonaut (withJsonPatch)
+import Data.Cursor.Spec (cursorSpec)
 import Data.Foldable.Extra.Spec (foldableExtraSpec)
 import Data.String.Extra.Spec (stringExtraSpec)
-import Data.Cursor.Spec (cursorSpec)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import PlutusTx.AssocMap.Spec (assocMapSpec)
@@ -13,8 +15,9 @@ import Test.Spec.Runner (runSpec)
 
 main :: Effect Unit
 main =
-  launchAff_
-    $ runSpec [ consoleReporter ] do
+  launchAff_ do
+    withJsonPatch do
+      runSpec [ consoleReporter ] do
         cursorSpec
         arrayExtraSpec
         foldableExtraSpec

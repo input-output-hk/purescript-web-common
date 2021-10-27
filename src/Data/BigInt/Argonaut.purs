@@ -23,10 +23,12 @@ module Data.BigInt.Argonaut
   , toNonEmptyString
   , toNumber
   , toString
+  , withJsonPatch
   , xor
   ) where
 
 import Prologue
+
 import Data.Argonaut.Aeson (maybeToEither)
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Decode (class DecodeJson, JsonDecodeError(..))
@@ -37,6 +39,10 @@ import Data.Function.Uncurried (Fn3, runFn3)
 import Data.Generic.Rep (class Generic)
 import Data.Newtype (class Newtype, over, unwrap)
 import Data.String.NonEmpty (NonEmptyString)
+import Effect (Effect)
+import Effect.Aff (Aff, bracket)
+import Effect.Class (liftEffect)
+import Foreign (Foreign)
 
 newtype BigInt
   = BigInt BI.BigInt
@@ -62,6 +68,14 @@ derive newtype instance euclideanRingBigInt :: EuclideanRing BigInt
 foreign import decodeBigInt :: forall a. Fn3 a (BI.BigInt -> a) Json a
 
 foreign import encodeBigInt :: BI.BigInt -> Json
+
+foreign import patchJson :: Effect Foreign
+
+foreign import restoreJson :: Foreign -> Effect Unit
+
+withJsonPatch :: forall a. Aff a -> Aff a
+withJsonPatch =
+  bracket (liftEffect patchJson) (liftEffect <<< restoreJson) <<< const
 
 instance decodeJsonBigInt :: DecodeJson BigInt where
   decodeJson =
