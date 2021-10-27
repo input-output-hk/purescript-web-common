@@ -17,7 +17,7 @@ exports.restoreJson = function (original) {
 }
 
 exports.decodeBigInt = function (fail, succ, json) {
-    if (typeof json === "number" || typeof json === "bigint") {
+    if (Number.isInteger(json) || typeof json === "bigint") {
         return succ(bigInt(json));
     } else {
         return fail;
@@ -25,5 +25,12 @@ exports.decodeBigInt = function (fail, succ, json) {
 }
 
 exports.encodeBigInt = function (a) {
-    return bigInt(a);
+    if (JSON.stringify !== JSONbig.stringify) {
+        console.warn(
+            "Tried to encode BitInt without patching JSON.stringify. Wrap your app in Data.BigInt.Argonaut.withJsonPatch."
+        );
+        return a.toJSNumber();
+    } else {
+        return a.value;
+    }
 }
