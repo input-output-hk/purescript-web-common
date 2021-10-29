@@ -607,11 +607,11 @@ let
 
     "json-helpers" = pkgs.stdenv.mkDerivation {
         name = "json-helpers";
-        version = "16de087fde6e2d07e6bdae51383131ab81efa82d";
+        version = "895db00f2fe97ee56b866bf1582b303d029c216a";
         src = pkgs.fetchgit {
-          url = "https://github.com/input-output-hk/purescript-bridge-json-helpers.git";
-          rev = "16de087fde6e2d07e6bdae51383131ab81efa82d";
-          sha256 = "1kqvhpq23cqz4gbdix0gjfyy9n5rb1hky1vrcxk221izqdnfiqq5";
+          url = "https://github.com/input-output-hk/purescript-bridge-json-helpers";
+          rev = "895db00f2fe97ee56b866bf1582b303d029c216a";
+          sha256 = "0jwhv9a4xhc65hxas8d00g6ax10q3w4xvlm8bp3dl1p6vav98988";
         };
         phases = "installPhase";
         installPhase = "ln -s $src $out";
