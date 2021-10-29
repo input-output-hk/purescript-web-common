@@ -4,24 +4,47 @@ let upstream =
 let overrides = {=}
 
 let additions =
-    { matryoshka =
-        { dependencies = [] : List Text
-        , repo = "https://github.com/slamdata/purescript-matryoshka.git"
-        , version = "v0.4.0"
-        }
-    , numerics =
-        { dependencies = [] : List Text
-        , repo = "https://github.com/Proclivis/purescript-numerics"
-        , version = "v0.1.2"
-        }
-    , markdown =
+    { markdown =
         { dependencies =
-            [ "const", "datetime", "functors", "lists", "ordered-collections", "parsing", "partial", "precise", "prelude", "strings", "unicode", "validation" ]
-        , repo = "https://github.com/jhbertra/purescript-markdown"
-        , version = "a9fbc4c42acf7b4be908832698b69ed558912496"
+            [ "arrays"
+            , "assert"
+            , "bifunctors"
+            , "console"
+            , "const"
+            , "control"
+            , "datetime"
+            , "effect"
+            , "either"
+            , "enums"
+            , "foldable-traversable"
+            , "functors"
+            , "identity"
+            , "integers"
+            , "lists"
+            , "maybe"
+            , "newtype"
+            , "parsing"
+            , "partial"
+            , "precise"
+            , "prelude"
+            , "psci-support"
+            , "strings"
+            , "tuples"
+            , "unfoldable"
+            , "unicode"
+            , "validation"
+            ]
+        , repo = "https://github.com/input-output-hk/purescript-markdown"
+        , version = "022d8afd0d9e0ef8114da9e9ef5a67d9ffc86a29"
         }
     , servant-support =
-        { dependencies = [] : List Text
+        { dependencies =
+            [ "affjax"
+            , "argonaut-codecs"
+            , "argonaut-core"
+            , "prelude"
+            , "psci-support"
+            ]
         , repo = "https://github.com/input-output-hk/purescript-servant-support"
         , version = "93ea0fa97d0ba04e8d408bbba51749a92d6477f5"
         }
