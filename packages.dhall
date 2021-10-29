@@ -1,35 +1,154 @@
 let upstream =
-    https://github.com/purescript/package-sets/releases/download/psc-0.14.4-20211005/packages.dhall sha256:2ec351f17be14b3f6421fbba36f4f01d1681e5c7f46e0c981465c4cf222de5be
+      https://github.com/purescript/package-sets/releases/download/psc-0.14.4-20211028/packages.dhall sha256:df6486e7fad6dbe724c4e2ee5eac65454843dce1f6e10dc35e0b1a8aa9720b26
 
 let overrides = {=}
 
 let additions =
-    { matryoshka =
-        { dependencies = [] : List Text
-        , repo = "https://github.com/slamdata/purescript-matryoshka.git"
-        , version = "v0.4.0"
-        }
-    , numerics =
-        { dependencies = [] : List Text
-        , repo = "https://github.com/Proclivis/purescript-numerics"
-        , version = "v0.1.2"
-        }
-    , markdown =
+      { markdown =
         { dependencies =
-            [ "const", "datetime", "functors", "lists", "ordered-collections", "parsing", "partial", "precise", "prelude", "strings", "unicode", "validation" ]
-        , repo = "https://github.com/jhbertra/purescript-markdown"
-        , version = "a9fbc4c42acf7b4be908832698b69ed558912496"
+          [ "arrays"
+          , "assert"
+          , "bifunctors"
+          , "console"
+          , "const"
+          , "control"
+          , "datetime"
+          , "effect"
+          , "either"
+          , "enums"
+          , "foldable-traversable"
+          , "functors"
+          , "identity"
+          , "integers"
+          , "lists"
+          , "maybe"
+          , "newtype"
+          , "parsing"
+          , "partial"
+          , "precise"
+          , "prelude"
+          , "psci-support"
+          , "strings"
+          , "tuples"
+          , "unfoldable"
+          , "unicode"
+          , "validation"
+          ]
+        , repo = "https://github.com/input-output-hk/purescript-markdown"
+        , version = "022d8afd0d9e0ef8114da9e9ef5a67d9ffc86a29"
         }
-    , servant-support =
-        { dependencies = [] : List Text
+      , servant-support =
+        { dependencies =
+          [ "affjax"
+          , "argonaut-codecs"
+          , "argonaut-core"
+          , "prelude"
+          , "psci-support"
+          ]
         , repo = "https://github.com/input-output-hk/purescript-servant-support"
         , version = "93ea0fa97d0ba04e8d408bbba51749a92d6477f5"
         }
-    , json-helpers =
-        { dependencies = [] : List Text
-        , repo = "https://github.com/input-output-hk/purescript-bridge-json-helpers.git"
-        , version = "16de087fde6e2d07e6bdae51383131ab81efa82d"
+      , json-helpers =
+        { dependencies =
+          [ "aff"
+          , "argonaut-codecs"
+          , "argonaut-core"
+          , "arrays"
+          , "bifunctors"
+          , "contravariant"
+          , "control"
+          , "effect"
+          , "either"
+          , "enums"
+          , "foreign-object"
+          , "maybe"
+          , "newtype"
+          , "ordered-collections"
+          , "prelude"
+          , "profunctor"
+          , "psci-support"
+          , "quickcheck"
+          , "record"
+          , "spec"
+          , "spec-quickcheck"
+          , "transformers"
+          , "tuples"
+          , "typelevel-prelude"
+          ]
+        , repo =
+            "https://github.com/input-output-hk/purescript-bridge-json-helpers"
+        , version = "895db00f2fe97ee56b866bf1582b303d029c216a"
         }
-    }
+      , web-common =
+        { dependencies =
+          [ "aff"
+          , "aff-promise"
+          , "affjax"
+          , "argonaut-codecs"
+          , "argonaut-core"
+          , "arrays"
+          , "avar"
+          , "bifunctors"
+          , "bigints"
+          , "concurrent-queues"
+          , "console"
+          , "control"
+          , "coroutines"
+          , "datetime"
+          , "debug"
+          , "dom-indexed"
+          , "effect"
+          , "either"
+          , "enums"
+          , "exceptions"
+          , "filterable"
+          , "foldable-traversable"
+          , "foreign"
+          , "foreign-object"
+          , "free"
+          , "freeap"
+          , "freet"
+          , "functions"
+          , "gen"
+          , "halogen"
+          , "halogen-subscriptions"
+          , "identity"
+          , "integers"
+          , "json-helpers"
+          , "lists"
+          , "markdown"
+          , "maybe"
+          , "newtype"
+          , "nonempty"
+          , "nullable"
+          , "ordered-collections"
+          , "parallel"
+          , "prelude"
+          , "profunctor"
+          , "profunctor-lenses"
+          , "psci-support"
+          , "quickcheck"
+          , "rationals"
+          , "servant-support"
+          , "spec"
+          , "spec-quickcheck"
+          , "strings"
+          , "tailrec"
+          , "transformers"
+          , "tuples"
+          , "undefinable"
+          , "unfoldable"
+          , "unsafe-coerce"
+          , "uuid"
+          , "web-dom"
+          , "web-events"
+          , "web-html"
+          , "web-socket"
+          , "web-uievents"
+          ]
+        , repo = "https://github.com/input-output-hk/purescript-web-common"
+        , version = "v1.0.0"
+        }
+      }
 
 in  upstream // overrides // additions
