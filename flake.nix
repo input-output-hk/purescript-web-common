@@ -118,7 +118,7 @@
 
       in
       {
-        packages = { inherit webCommon src; };
+        packages = { inherit webCommon; };
         hydraJobs = {
           inherit webCommon pre-commit-check;
         };
