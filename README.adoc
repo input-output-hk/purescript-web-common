@@ -20,79 +20,20 @@ See link:CONTRIBUTING{outfilesuffix}[CONTRIBUTING], which describes our processe
 
 === How to depend on the project from another PureScript project
 
-None of our libraries are on Bower, or in a spago package set. You can depend
-on this library by adding it to your project's spago package set as an
-additional dependency in your packages.dhall file:
+This repo contains IO Global's standard psc package set. It extends the latest
+package set from `psc-package` and adds a few of our own packages to the set
+(inluding `web-common` its self). In your project's `packages.dhall`, you can
+set this project's package set as your upstream package set, and override or
+add additional packages if you need to:
 
 ----
-web-common =
-  { dependencies =
-    [ "aff"
-    , "aff-promise"
-    , "affjax"
-    , "argonaut-codecs"
-    , "argonaut-core"
-    , "arrays"
-    , "avar"
-    , "bifunctors"
-    , "bigints"
-    , "concurrent-queues"
-    , "console"
-    , "control"
-    , "coroutines"
-    , "datetime"
-    , "debug"
-    , "dom-indexed"
-    , "effect"
-    , "either"
-    , "enums"
-    , "exceptions"
-    , "filterable"
-    , "foldable-traversable"
-    , "foreign"
-    , "foreign-object"
-    , "free"
-    , "freeap"
-    , "freet"
-    , "functions"
-    , "halogen"
-    , "halogen-subscriptions"
-    , "identity"
-    , "integers"
-    , "json-helpers"
-    , "lists"
-    , "markdown"
-    , "maybe"
-    , "newtype"
-    , "nullable"
-    , "ordered-collections"
-    , "parallel"
-    , "prelude"
-    , "profunctor"
-    , "profunctor-lenses"
-    , "psci-support"
-    , "rationals"
-    , "servant-support"
-    , "strings"
-    , "tailrec"
-    , "transformers"
-    , "tuples"
-    , "undefinable"
-    , "unfoldable"
-    , "unsafe-coerce"
-    , "uuid"
-    , "web-dom"
-    , "web-events"
-    , "web-html"
-    , "web-socket"
-    , "web-uievents"
-    ]
-  , repo = "https://github.com/input-output-hk/web-common.git"
-  , version = "<commit-hash-you-want-to-pin>"
-  }
+let upstream =
+      https://github.com/input-output-hk/purescript-web-common/releases/download/v1.0.0/packages.dhall
 ----
 
-It will then be available to install in your project using `spago install web-common`
+You will then be able to install any package on the latest psc-package set, as
+well as `json-helpers`, `servant-support`, `web-common`, and `markdown` via
+`spago install`.
 
 === How to depend on the static sources in this project
 
