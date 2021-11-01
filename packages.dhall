@@ -37,6 +37,32 @@ let additions =
         , repo = "https://github.com/input-output-hk/purescript-markdown"
         , version = "022d8afd0d9e0ef8114da9e9ef5a67d9ffc86a29"
         }
+      , datetime-iso =
+        { dependencies =
+          [ "aff"
+          , "argonaut"
+          , "argonaut-codecs"
+          , "argonaut-core"
+          , "arrays"
+          , "bifunctors"
+          , "datetime"
+          , "effect"
+          , "either"
+          , "enums"
+          , "foldable-traversable"
+          , "maybe"
+          , "newtype"
+          , "parsing"
+          , "partial"
+          , "prelude"
+          , "psci-support"
+          , "spec"
+          , "strings"
+          , "transformers"
+          ]
+        , repo = "https://github.com/input-output-hk/purescript-datetime-iso"
+        , version = "c5b3b5421ae36631b0e2823e1199febd5b209791"
+        }
       , servant-support =
         { dependencies =
           [ "affjax"
@@ -147,7 +173,7 @@ let additions =
           , "web-uievents"
           ]
         , repo = "https://github.com/input-output-hk/purescript-web-common"
-        , version = "v1.0.0"
+        , version = "v1.1.0"
         }
       }
 
