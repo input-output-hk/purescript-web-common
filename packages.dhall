@@ -173,7 +173,7 @@ let additions =
           , "web-uievents"
           ]
         , repo = "https://github.com/input-output-hk/purescript-web-common"
-        , version = "v1.1.1"
+        , version = "v1.1.2"
         }
       }
 

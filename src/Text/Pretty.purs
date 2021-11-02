@@ -6,6 +6,9 @@ module Text.Pretty
   , hasArgs
   , hasNestedArgs
   , text
+  , sep
+  , hsep
+  , vsep
   , class GenericArgs
   , gHasArgs
   , gHasNestedArgs
@@ -16,9 +19,10 @@ module Text.Pretty
 
 import Prelude
 
+import Data.Array (intersperse)
 import Data.BigInt.Argonaut (BigInt)
 import Data.BigInt.Argonaut as BigInt
-import Data.Foldable (any, intercalate)
+import Data.Foldable (any, fold, intercalate)
 import Data.Generic.Rep (class Generic, Argument(..), Constructor(..), NoArguments, Product(..), Sum(..), from)
 import Data.String.Extra (repeat)
 import Data.Symbol (class IsSymbol, reflectSymbol)
@@ -54,6 +58,15 @@ indent n (Newline m) = Newline (m + n)
 indent n (Cat a b) = Cat (indent n a) (indent n b)
 
 indent _ doc = doc
+
+sep :: Doc -> Array Doc -> Doc
+sep separator = fold <<< intersperse separator
+
+hsep :: Array Doc -> Doc
+hsep = sep $ text " "
+
+vsep :: Array Doc -> Doc
+vsep = sep $ newline
 
 ------------------------ Pretty Class and Generic Instances ---------------------------
 class Pretty a where

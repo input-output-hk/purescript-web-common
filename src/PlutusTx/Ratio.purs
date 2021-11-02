@@ -11,7 +11,7 @@ import Data.Argonaut.Encode.Aeson as E
 import Data.Profunctor.Strong ((&&&))
 import Data.Ratio as R
 import Data.Tuple (uncurry)
-import Text.Pretty (class Args, class Pretty, text)
+import Text.Pretty (class Args, class Pretty, hsep, pretty, text)
 
 newtype Ratio a
   = Ratio (R.Ratio a)
@@ -23,9 +23,8 @@ instance argsRatio :: Args (Ratio a) where
   hasArgs _ = false
   hasNestedArgs _ = false
 
-instance prettyRatio :: Show a => Pretty (Ratio a) where
-  pretty r = text $ "(" <> show (numerator r) <> "%" <> show (denominator r) <>
-    ")"
+instance prettyRatio :: Pretty a => Pretty (Ratio a) where
+  pretty r = hsep [ pretty $ numerator r, text "%", pretty $ denominator r ]
 
 instance eqRatio :: Eq a => Eq (Ratio a) where
   eq (Ratio a) (Ratio b) = eq a b
