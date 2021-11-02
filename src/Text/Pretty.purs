@@ -17,6 +17,7 @@ module Text.Pretty
 import Prelude
 
 import Data.BigInt.Argonaut (BigInt)
+import Data.BigInt.Argonaut as BigInt
 import Data.Foldable (any, intercalate)
 import Data.Generic.Rep (class Generic, Argument(..), Constructor(..), NoArguments, Product(..), Sum(..), from)
 import Data.String.Extra (repeat)
@@ -62,7 +63,7 @@ instance prettyString :: Pretty String where
   pretty = text <<< show
 
 instance prettyBigInt :: Pretty BigInt where
-  pretty = text <<< show
+  pretty = text <<< BigInt.toString
 
 instance prettyNoArguments :: Pretty NoArguments where
   pretty _ = mempty

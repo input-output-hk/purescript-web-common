@@ -8,16 +8,23 @@ import Data.Argonaut.Decode (JsonDecodeError)
 import Data.Argonaut.Extra (encodeStringifyJson, parseDecodeJson)
 import Data.BigInt as BI
 import Data.BigInt.Argonaut (BigInt, fromInt, withJsonPatch)
+import Data.BigInt.Argonaut as BigInt
+import Data.Generic.Rep (class Generic)
 import Data.Newtype (unwrap)
 import Data.String (codePointFromChar, dropWhile, null)
 import Data.String.Gen (genDigitString)
 import Test.QuickCheck (class Arbitrary, (===))
 import Test.QuickCheck.Gen (suchThat)
 import Test.Spec (Spec, around_, describe, it)
-import Test.Spec.Assertions (shouldNotEqual)
+import Test.Spec.Assertions (shouldEqual, shouldNotEqual)
 import Test.Spec.QuickCheck (quickCheck)
+import Text.Pretty (genericPretty, pretty)
 
 newtype DigitString = DigitString String
+
+data TestData = TestData String BigInt
+
+derive instance genericTestData :: Generic TestData _
 
 instance arbitraryDigitString :: Arbitrary DigitString where
   arbitrary =
@@ -52,3 +59,11 @@ bigIntSpec =
           (unwrap <<< add (fromInt 10))
             <$> decoded === (add (BI.fromInt 10) <<< unwrap)
             <$> decoded
+    it "Renders prettily as just the integer value" do
+      show (pretty $ BigInt.fromInt 10) `shouldEqual` "10"
+    it "Renders from withing genericPretty" do
+      show (genericPretty $ TestData "hello" $ BigInt.fromInt 10)
+        `shouldEqual`
+          "TestData \"hello\" 10"
+    it "Renders with \"fromString\" with show" do
+      show (BigInt.fromInt 10) `shouldEqual` "fromString \"10\""
