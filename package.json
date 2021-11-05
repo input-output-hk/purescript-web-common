@@ -5,6 +5,7 @@
   "author": "IO Global",
   "license": "Apache-2.0",
   "homepage": "https://github.com/input-output-hk/purescript-web-common",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/input-output-hk/purescript-web-common.git"
@@ -12,23 +13,40 @@
   "bugs": {
     "url": "https://github.com/input-output-hk/purescript-web-common/issues"
   },
-  "directories": {
-    "test": "test"
-  },
   "files": [
-    "./static/**/*"
+    "static/**/*",
+    "webpack.config.js"
   ],
   "scripts": {
     "test": "spago test --purs-args \"--strict --censor-lib --stash\"",
     "test:watch": "spago test --purs-args \"--strict --censor-lib --stash\" --watch --clear-screen"
   },
-  "dependencies": {},
   "peerDependencies": {
+    "@popperjs/core": "^2.9.2",
     "big-integer": "^1.6.50",
-    "json-bigint": "^1.0.0"
+    "chartist": "^0.11.4",
+    "chartist-plugin-axistitle": "^0.0.7",
+    "chartist-plugin-tooltips": "^0.0.17",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
+    "json-bigint": "^1.0.0",
+    "mini-css-extract-plugin": "^2.4.4",
+    "postcss-loader": "^6.2.0"
   },
   "devDependencies": {
+    "@popperjs/core": "^2.9.2",
     "big-integer": "^1.6.50",
-    "json-bigint": "^1.0.0"
+    "chartist": "^0.11.4",
+    "chartist-plugin-axistitle": "^0.0.7",
+    "chartist-plugin-tooltips": "^0.0.17",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
+    "json-bigint": "^1.0.0",
+    "mini-css-extract-plugin": "^2.4.4",
+    "postcss-loader": "^6.2.0"
+  },
+  "dependencies": {
+    "webpack": "^5.61.0",
+    "webpack-merge": "^5.8.0"
   }
 }
