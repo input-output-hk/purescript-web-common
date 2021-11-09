@@ -75,7 +75,7 @@ Then, in your project's webpack.config.js, you can use it as follows:
 
 ----
 const path = require("path");
-const { webpackConfig, pursRules } = require("purescript-web-common");
+const { webpackConfig, purescriptRule } = require("purescript-web-common");
 
 // extra source folders your project uses. test, src, .spago, and generated are
 // automatically included.
@@ -97,7 +97,7 @@ module.exports = webpackConfig((env /* will be "development" or "production) => 
             // matching "test" properties will override the same rules defined by
             // webpackConfig.
             rules: [
-              pursRules(env, pursSources),
+              purescriptRule(env, pursSources),
             ],
         },
         plugins: [

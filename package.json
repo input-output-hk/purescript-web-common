@@ -19,7 +19,8 @@
   ],
   "scripts": {
     "test": "spago test --purs-args \"--strict --censor-lib --stash\"",
-    "test:watch": "spago test --purs-args \"--strict --censor-lib --stash\" --watch --clear-screen"
+    "test:watch": "spago test --purs-args \"--strict --censor-lib --stash\" --watch --clear-screen",
+    "test:js": "jest"
   },
   "peerDependencies": {
     "@popperjs/core": "^2.9.2",

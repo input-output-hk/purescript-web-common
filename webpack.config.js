@@ -14,7 +14,40 @@ class ErrorReportingPlugin {
   }
 }
 
-const baseConfig = (pursOptions) => ({
+exports.purescriptRule = (env, pursSources) => {
+  const isDevelopment = env === "development";
+  return {
+    test: /\.purs$/,
+    use: [
+      {
+        loader: "purs-loader",
+        options: {
+          bundle: !isDevelopment,
+          psc: "psa",
+          pscArgs: {
+            strict: true,
+            censorLib: true,
+            stash: isDevelopment,
+            isLib: [".spago", "generated"],
+          },
+          spago: isDevelopment,
+          src: isDevelopment
+            ? []
+            : [
+                ".spago/*/*/src/**/*.purs",
+                "src/**/*.purs",
+                "test/**/*.purs",
+                "generated/**/*.purs",
+                ...pursSources,
+              ],
+          watch: isDevelopment,
+        },
+      },
+    ],
+  };
+};
+
+const baseConfig = {
   output: {
     filename: "[name].[contenthash].js",
     pathinfo: true,
@@ -33,26 +66,6 @@ const baseConfig = (pursOptions) => ({
   },
   module: {
     rules: [
-      {
-        test: /\.purs$/,
-        use: [
-          {
-            loader: "purs-loader",
-            options: merge(
-              {
-                psc: "psa",
-                pscArgs: {
-                  strict: true,
-                  censorLib: true,
-                  stash: isDevelopment,
-                  isLib: [".spago", "generated"],
-                },
-              },
-              pursOptions
-            ),
-          },
-        ],
-      },
       {
         test: /\.tsx?$/,
         loader: "ts-loader",
@@ -84,45 +97,28 @@ const baseConfig = (pursOptions) => ({
     // Don't print noisy output for extracted CSS children.
     children: false,
   },
-});
+};
 
-const developmentConfig = merge(
-  baseConfig({
-    psc: "psa",
-    spago: true,
-    watch: true,
-  }),
-  {
-    mode: "development",
-    devtool: "eval-cheap-source-map",
-    devServer: {
-      compress: true,
-      port: 8009,
-      stats: "errors-warnings",
-    },
-  }
-);
+const developmentConfig = {
+  mode: "development",
+  devtool: "eval-cheap-source-map",
+  devServer: {
+    compress: true,
+    port: 8009,
+    stats: "errors-warnings",
+  },
+};
 
-const productionConfig = (pursSources) =>
-  merge(
-    baseConfig({
-      bundle: true,
-      psc: "psa",
-      src: [".spago/*/*/src/**/*.purs", "src/**/*.purs", ...pursSources],
-    }),
-    {
-      mode: "production",
-      devtool: false,
-      plugins: [new ErrorReportingPlugin()],
-    }
-  );
+const productionConfig = {
+  mode: "production",
+  devtool: false,
+  plugins: [new ErrorReportingPlugin()],
+};
 
-module.exports = (pursSources, options) => (env) => {
+module.exports.webpackConfig = (options) => (env) => {
   const isProduction = env === "production";
   const NODE_ENV = isProduction ? "production" : "development";
-  const environmentConfig = isProduction
-    ? productionConfig(pursSources)
-    : developmentConfig;
+  const environmentConfig = isProduction ? productionConfig : developmentConfig;
   const config = merge(baseConfig, environmentConfig, options(NODE_ENV));
   const extraConfig = {
     plugins: [new webpack.DefinePlugin({ NODE_ENV }), new CleanWebpackPlugin()],
