@@ -35,9 +35,169 @@ You will then be able to install any package on the latest psc-package set, as
 well as `json-helpers`, `servant-support`, `web-common`, and `markdown` via
 `spago install`.
 
-=== How to depend on the static sources in this project
+=== How to override this dependency locally
 
-TODO this needs to be resolved.
+If you are working on web-common locally, and want to test out your changes in
+a project, you can override the package locally using spago, which makes local
+development much more convenient. In your project's `packages.dhall`, simply
+add the following to your upstream declaration:
+
+----
+-- This assumes you have this repo cloned in a sibling directory to
+-- the one that contains your PureScript project's packages.dhall file.
+
+let upstream =
+      https://github.com/input-output-hk/purescript-web-common/releases/download/v1.0.0/packages.dhall
+        with web-common = ../purescript-web-common/spago.dhall as Location
+----
+
+=== How to depend on this project from another NPM project
+
+You can install this project as a NPM dependency with.
+
+----
+npm install --save-dev @input-output-hk/web-common
+----
+
+This is necessary if you want to use the CSS, HTML, or JavaScript dependencies
+bundled in this project.
+
+=== How to use the shared webpack config
+
+This project includes a standard WebPack config that can be customized to fit
+your projects needs. First, you need to install the NPM package:
+
+----
+npm install --save-dev @input-output-hk/web-common
+----
+
+Then, in your project's webpack.config.js, you can use it as follows:
+
+----
+const path = require("path");
+const { webpackConfig, pursRules } = require("purescript-web-common");
+
+// extra source folders your project uses. test, src, .spago, and generated are
+// automatically included.
+const pursSources = [
+    "web-common-plutus/src/**/*.purs",
+    "web-common-playground/src/**/*.purs",
+];
+
+const dist = path.join(__dirname, "dist");
+
+module.exports = webpackConfig((env /* will be "development" or "production) => {
+    // Return a webpack config object. This will be merged with the standard
+    // config.
+    return {
+        entry: "./entry.js",
+        output: { path: dist },
+        module: {
+            // You can include more rules here. Note that rules with the
+            // matching "test" properties will override the same rules defined by
+            // webpackConfig.
+            rules: [
+              pursRules(env, pursSources),
+            ],
+        },
+        plugins: [
+          // You can add plugins here. Note that plugins listed here will
+          // override the same plugins defined by webpackConfig.
+        ],
+    };
+});
+----
+
+The standard config includes the following settings:
+
+----
+{
+  output: {
+    filename: "[name].[contenthash].js",
+    pathinfo: true,
+  },
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif|woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name]-[chunkhash].css",
+      chunkFilename: "[id].css",
+    }),
+  ],
+  resolve: {
+    modules: ["node_modules"],
+    extensions: [".purs", ".js", ".ts", ".tsx"],
+  },
+  resolveLoader: {
+    modules: ["node_modules"],
+  },
+  stats: {
+    children: false,
+  },
+}
+----
+
+In development mode, the following settings are applied:
+
+----
+{
+    mode: "development",
+    devtool: "eval-cheap-source-map",
+    devServer: {
+      compress: true,
+      port: 8009,
+      stats: "errors-warnings",
+    },
+}
+----
+
+While in production, the following settings are applied:
+
+----
+class ErrorReportingPlugin {
+  apply(compiler) {
+    compiler.hooks.done.tap("ErrorReportingPlugin", (stats) =>
+      process.stderr.write(stats.toString("errors-only"))
+    );
+  }
+}
+
+{
+  mode: "production",
+  devtool: false,
+  plugins: [new ErrorReportingPlugin()],
+}
+----
+
+Notice that this configuration includes postcss, which means that you need to
+create a `postcss.config.js` file in the root of your project, even if it is a
+stub config.
 
 [[prerequisites]]
 ==== Prerequisites
