@@ -59,6 +59,11 @@
           language = "system";
         };
 
+        prettier-hook = {
+          enable = true;
+          types_or = [ "javascript" "css" "html" ];
+        };
+
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           inherit src;
           hooks = {
@@ -67,6 +72,7 @@
               excludes = [ ".*spago-packages.nix$" ];
             };
             inherit purs-tidy-hook;
+            prettier = prettier-hook;
           };
         };
 
@@ -116,10 +122,17 @@
           echo done.
         '';
 
+        fix-prettier = pkgs.writeShellScriptBin "fix-prettier" ''
+          set -e
+          echo formatting JavaScript, CSS, and HTML files...
+          prettier -w ./*.js src/**/*.js static/**/*.{css,html}
+          echo done.
+        '';
+
       in
       {
         packages = {
-          inherit webCommon purs-tidy-hook fix-purs-tidy;
+          inherit webCommon purs-tidy-hook fix-purs-tidy prettier-hook fix-prettier;
         };
         hydraJobs = {
           inherit webCommon pre-commit-check;
@@ -129,6 +142,7 @@
           buildInputs = [
             clean
             fix-purs-tidy
+            fix-prettier
             psa
             purescript-language-server
             purs
@@ -136,6 +150,7 @@
             rnix-lsp.defaultPackage."${system}"
             spago
             spago2nix
+            pkgs.nodePackages.prettier
           ];
           inherit (pre-commit-check) shellHook;
         };
