@@ -118,7 +118,9 @@
 
       in
       {
-        packages = { inherit webCommon; };
+        packages = {
+          inherit webCommon purs-tidy-hook fix-purs-tidy;
+        };
         hydraJobs = {
           inherit webCommon pre-commit-check;
         };
