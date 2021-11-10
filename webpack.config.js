@@ -1,5 +1,5 @@
 const webpack = require("webpack");
-const { merge } = require("webpack-merge");
+const { mergeWithCustomize } = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
@@ -114,6 +114,25 @@ const productionConfig = {
   devtool: false,
   plugins: [new ErrorReportingPlugin()],
 };
+
+function isNotOverridenBy(plugins) {
+  return (plugin) =>
+    !plugins.some(
+      (p) =>
+        p.constructor &&
+        plugin.constructor &&
+        p.constructor === plugin.constructor
+    );
+}
+
+const merge = mergeWithCustomize({
+  customizeArray: (a, b, key) => {
+    if (key === "plugins") {
+      return a.filter(isNotOverridenBy(b)).concat(b);
+    }
+    return undefined;
+  },
+});
 
 module.exports.webpackConfig = (options) => (env) => {
   const isProduction = env === "production";
