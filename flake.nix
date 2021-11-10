@@ -128,7 +128,7 @@
             --extension purs \
             --exclude '*/.spago/*/*/test/*' \
             --exclude '.spago/*/*/test/*' \
-            --exec-batch ${purs-tidy}/bin/purs-tidy generate-operators {} > .tinyoperators || true
+            --exec-batch ${purs-tidy}/bin/purs-tidy generate-operators {} > .tidyoperators || true
           echo formatting PureScript files...
           ${fd}/bin/fd \
             --extension purs \

@@ -1,7 +1,7 @@
 {
   "importWrap": "source",
   "indent": 2,
-  "operatorsFile": ".tinyoperators",
+  "operatorsFile": ".tidyoperators",
   "ribbon": 1,
   "typeArrowPlacement": "first",
   "unicode": "never",
