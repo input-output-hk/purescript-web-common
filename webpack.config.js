@@ -115,7 +115,7 @@ const productionConfig = {
   plugins: [new ErrorReportingPlugin()],
 };
 
-function isNotOverridenBy(plugins) {
+function pluginNotOverridden(plugins) {
   return (plugin) =>
     !plugins.some(
       (p) =>
@@ -125,10 +125,19 @@ function isNotOverridenBy(plugins) {
     );
 }
 
+function ruleNotOverridden(rules) {
+  return (rule) =>
+    !rules.some(
+      (r) => r.test && rule.test && r.test.toString() == rule.test.toString()
+    );
+}
+
 const merge = mergeWithCustomize({
   customizeArray: (a, b, key) => {
     if (key === "plugins") {
-      return a.filter(isNotOverridenBy(b)).concat(b);
+      return a.filter(pluginNotOverridden(b)).concat(b);
+    } else if (key === "module.rules") {
+      return a.filter(ruleNotOverridden(b)).concat(b);
     }
     return undefined;
   },

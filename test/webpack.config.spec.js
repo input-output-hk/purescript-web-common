@@ -560,4 +560,111 @@ describe("webpackConfig", () => {
       }
     `);
   });
+
+  it("Overrides matching rules", () => {
+    expect(
+      webpackConfig((env) => ({
+        module: {
+          rules: [{ test: /\.css$/, loader: "css-loader" }],
+        },
+      }))("production")
+    ).toMatchInlineSnapshot(`
+      Object {
+        "devtool": false,
+        "mode": "production",
+        "module": Object {
+          "rules": Array [
+            Object {
+              "loader": "ts-loader",
+              "test": /\\\\\\.tsx\\?\\$/,
+            },
+            Object {
+              "test": /\\\\\\.\\(png\\|svg\\|jpg\\|jpeg\\|gif\\|woff\\|woff2\\|eot\\|ttf\\|otf\\)\\$/i,
+              "type": "asset/resource",
+            },
+            Object {
+              "loader": "css-loader",
+              "test": /\\\\\\.css\\$/,
+            },
+          ],
+        },
+        "optimization": Object {
+          "runtimeChunk": "single",
+          "splitChunks": Object {
+            "cacheGroups": Object {
+              "vendor": Object {
+                "chunks": "all",
+                "name": "vendors",
+                "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            },
+          },
+        },
+        "output": Object {
+          "filename": "[name].[contenthash].js",
+          "pathinfo": true,
+        },
+        "plugins": Array [
+          MiniCssExtractPlugin {
+            "_sortedModulesCache": WeakMap {},
+            "options": Object {
+              "chunkFilename": "[id].css",
+              "experimentalUseImportModule": undefined,
+              "filename": "[name]-[chunkhash].css",
+              "ignoreOrder": false,
+              "runtime": true,
+            },
+            "runtimeOptions": Object {
+              "attributes": undefined,
+              "insert": undefined,
+              "linkType": "text/css",
+            },
+          },
+          ErrorReportingPlugin {},
+          DefinePlugin {
+            "definitions": Object {
+              "NODE_ENV": "production",
+            },
+          },
+          CleanWebpackPlugin {
+            "apply": [Function],
+            "cleanAfterEveryBuildPatterns": Array [],
+            "cleanOnceBeforeBuildPatterns": Array [
+              "**/*",
+            ],
+            "cleanStaleWebpackAssets": true,
+            "currentAssets": Array [],
+            "dangerouslyAllowCleanPatternsOutsideProject": false,
+            "dry": false,
+            "handleDone": [Function],
+            "handleInitial": [Function],
+            "initialClean": false,
+            "outputPath": "",
+            "protectWebpackAssets": true,
+            "removeFiles": [Function],
+            "verbose": false,
+          },
+        ],
+        "resolve": Object {
+          "extensions": Array [
+            ".purs",
+            ".js",
+            ".ts",
+            ".tsx",
+          ],
+          "modules": Array [
+            "node_modules",
+          ],
+        },
+        "resolveLoader": Object {
+          "modules": Array [
+            "node_modules",
+          ],
+        },
+        "stats": Object {
+          "children": false,
+        },
+      }
+    `);
+  });
 });
