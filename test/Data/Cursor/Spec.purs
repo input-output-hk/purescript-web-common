@@ -143,7 +143,7 @@ deleteAtSpec =
             if Cursor.length cursor < 2 then
               Cursor.current deleted ==
                 Nothing
-                  <?> "A cursor will be empty if we delete its only element: "
+                <?> "A cursor will be empty if we delete its only element: "
                   <> show (Tuple index cursor)
             else if Cursor.getIndex cursor == index then
               if Cursor.getIndex cursor == Cursor.length cursor - 1 then
@@ -171,6 +171,6 @@ deleteAtSpec =
             else
               Cursor.current cursor ==
                 Cursor.current deleted
-                  <?>
-                    "Deleting an element that isn't at the cursor's position should not affect the current target: "
-                  <> show (Tuple index cursor)
+                <?>
+                  "Deleting an element that isn't at the cursor's position should not affect the current target: "
+                    <> show (Tuple index cursor)

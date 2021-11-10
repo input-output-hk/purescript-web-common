@@ -12,7 +12,7 @@
   stroke: currentColor;
   fill: none;
   transition: stroke-dashoffset 0.5s ease-in-out;
-  stroke-dasharray: 113,113;
+  stroke-dasharray: 113, 113;
 }
 
 .progress.progress-circular.progress-0 circle {
@@ -71,15 +71,15 @@
 }
 @keyframes progress-circular-dash {
   0% {
-    stroke-dasharray: 7,106;
+    stroke-dasharray: 7, 106;
     stroke-dashoffset: 0;
   }
   50% {
-    stroke-dasharray: 83,40;
+    stroke-dasharray: 83, 40;
     stroke-dashoffset: -28;
   }
   100% {
-    stroke-dasharray: 7,106;
+    stroke-dasharray: 7, 106;
     stroke-dashoffset: -106;
     transform: rotate(22deg);
   }

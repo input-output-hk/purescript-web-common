@@ -43,6 +43,10 @@
 
         inherit (easy-ps) psa purescript-language-server purs purs-tidy spago spago2nix;
 
+        inherit (pkgs) fd;
+
+        inherit (pkgs.nodePackages) prettier;
+
         getGlob = { name, version, ... }: ''".spago/${name}/${version}/src/**/*.purs"'';
 
         spagoSources =
@@ -117,15 +121,30 @@
 
         fix-purs-tidy = pkgs.writeShellScriptBin "fix-purs-tidy" ''
           set -e
+          echo updating operators file...
+          ${fd}/bin/fd \
+            --no-ignore \
+            --hidden \
+            --extension purs \
+            --exclude '*/.spago/*/*/test/*' \
+            --exclude '.spago/*/*/test/*' \
+            --exec-batch ${purs-tidy}/bin/purs-tidy generate-operators {} > .tinyoperators || true
           echo formatting PureScript files...
-          purs-tidy format-in-place src/**/*.purs test/**/*.purs
+          ${fd}/bin/fd \
+            --extension purs \
+            --exec-batch ${purs-tidy}/bin/purs-tidy format-in-place {} || true
           echo done.
         '';
 
         fix-prettier = pkgs.writeShellScriptBin "fix-prettier" ''
           set -e
           echo formatting JavaScript, CSS, and HTML files...
-          prettier -w ./*.js src/**/*.js static/**/*.{css,html}
+          ${fd}/bin/fd \
+            --extension js \
+            --extension ts \
+            --extension css \
+            --extension html \
+            --exec-batch ${prettier}/bin/prettier -w format-in-place {} || true
           echo done.
         '';
 
@@ -150,7 +169,7 @@
             rnix-lsp.defaultPackage."${system}"
             spago
             spago2nix
-            pkgs.nodePackages.prettier
+            prettier
           ];
           inherit (pre-commit-check) shellHook;
         };

@@ -1,8 +1,8 @@
 /*global exports, require*/
-'use strict';
+"use strict";
 
 exports._copy = function (string) {
-    if (navigator && navigator.clipboard) {
-        navigator.clipboard.writeText(string);
-    };
+  if (navigator && navigator.clipboard) {
+    navigator.clipboard.writeText(string);
+  }
 };

@@ -10,11 +10,8 @@ exports.resizeObserver = function (cb) {
 
 exports._observe = function (element) {
   return function (config) {
-
     return function (observer) {
-
       return function () {
-
         return observer.observe(element, config);
       };
     };
@@ -22,11 +19,11 @@ exports._observe = function (element) {
 };
 
 exports.unobserve = function (element) {
-    return function (observer) {
-      return function () {
-        return observer.unobserve(element);
-      };
+  return function (observer) {
+    return function () {
+      return observer.unobserve(element);
     };
+  };
 };
 
 exports.disconnect = function (observer) {

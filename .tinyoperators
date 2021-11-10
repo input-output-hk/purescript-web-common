@@ -142,7 +142,6 @@ Data.Argonaut.Encode.(~>?) 6
 Data.Argonaut.Encode.Aeson.(>$<) 4
 Data.Argonaut.Encode.Aeson.(>*<) 4
 Data.Argonaut.Encode.Aeson.(>/\<) 6
-Data.Argonaut.Encode.Aeson.(>|<) 4
 Data.Argonaut.Encode.Combinators.(:=) 7
 Data.Argonaut.Encode.Combinators.(:=?) 7
 Data.Argonaut.Encode.Combinators.(~>) 6
@@ -382,6 +381,15 @@ Prologue.(>=>) 1
 Prologue.(>>=) 1
 Prologue.(>>>) 9
 Prologue.(||) 2
+Test.QuickCheck.(/==) 2
+Test.QuickCheck.(/=?) 2
+Test.QuickCheck.(<=?) 2
+Test.QuickCheck.(<?) 2
+Test.QuickCheck.(<?>) 2
+Test.QuickCheck.(===) 2
+Test.QuickCheck.(==?) 2
+Test.QuickCheck.(>=?) 2
+Test.QuickCheck.(>?) 2
 Text.Parsing.Indent.(<*/>) 11
 Text.Parsing.Indent.(<+/>) 9
 Text.Parsing.Indent.(<-/>) 10
