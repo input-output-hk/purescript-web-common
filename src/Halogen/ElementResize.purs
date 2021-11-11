@@ -5,7 +5,13 @@ import Data.Array (head)
 import Data.Traversable (traverse_)
 import Halogen.Subscription as HS
 import Web.DOM (Element)
-import Web.DOM.ResizeObserver (ResizeObserverBoxOptions, ResizeObserverEntry, observe, resizeObserver, unobserve)
+import Web.DOM.ResizeObserver
+  ( ResizeObserverBoxOptions
+  , ResizeObserverEntry
+  , observe
+  , resizeObserver
+  , unobserve
+  )
 
 elementResize
   :: forall action

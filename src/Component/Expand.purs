@@ -9,8 +9,22 @@ module Component.Expand
 
 import Prologue
 import Component.Expand.State (handleAction, handleQuery, initialState)
-import Component.Expand.Types (Action(..), Component, ComponentHTML, Slot, State)
-import Component.Expand.Types (Action, Component, ComponentHTML, Input, Query(..), Slot, State(..)) as Types
+import Component.Expand.Types
+  ( Action(..)
+  , Component
+  , ComponentHTML
+  , Slot
+  , State
+  )
+import Component.Expand.Types
+  ( Action
+  , Component
+  , ComponentHTML
+  , Input
+  , Query(..)
+  , Slot
+  , State(..)
+  ) as Types
 import Type.Proxy (Proxy(..))
 import Halogen as H
 import Halogen.HTML as HH

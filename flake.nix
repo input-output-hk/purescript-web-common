@@ -121,18 +121,10 @@
 
         fix-purs-tidy = pkgs.writeShellScriptBin "fix-purs-tidy" ''
           set -e
-          echo updating operators file...
-          ${fd}/bin/fd \
-            --no-ignore \
-            --hidden \
-            --extension purs \
-            --exclude '*/.spago/*/*/test/*' \
-            --exclude '.spago/*/*/test/*' \
-            --exec-batch ${purs-tidy}/bin/purs-tidy generate-operators {} > .tidyoperators || true
           echo formatting PureScript files...
           ${fd}/bin/fd \
             --extension purs \
-            --exec-batch ${purs-tidy}/bin/purs-tidy format-in-place {} || true
+            --exec-batch ${purs-tidy}/bin/purs-tidy format-in-place {}
           echo done.
         '';
 
@@ -144,7 +136,7 @@
             --extension ts \
             --extension css \
             --extension html \
-            --exec-batch ${prettier}/bin/prettier -w format-in-place {} || true
+            --exec-batch ${prettier}/bin/prettier -w format-in-place {}
           echo done.
         '';
 

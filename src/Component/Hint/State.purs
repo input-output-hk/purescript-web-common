@@ -1,10 +1,39 @@
 module Component.Hint.State (component, hint) where
 
 import Prologue
-import Component.Hint.Lenses (_active, _content, _mGlobalClickSubscription, _mPopperInstance, _placement)
-import Component.Hint.Types (Action(..), Input, State, arrowRef, hintRef, popoutRef)
+import Component.Hint.Lenses
+  ( _active
+  , _content
+  , _mGlobalClickSubscription
+  , _mPopperInstance
+  , _placement
+  )
+import Component.Hint.Types
+  ( Action(..)
+  , Input
+  , State
+  , arrowRef
+  , hintRef
+  , popoutRef
+  )
 import Component.Hint.View (render)
-import Component.Popper (OffsetOption(..), PaddingOption(..), Placement, PositioningStrategy(..), arrow, createPopper, defaultFlip, defaultModifiers, defaultPreventOverflow, destroyPopper, flipPlacement, forceUpdate, offset, pAll, preventOverflow)
+import Component.Popper
+  ( OffsetOption(..)
+  , PaddingOption(..)
+  , Placement
+  , PositioningStrategy(..)
+  , arrow
+  , createPopper
+  , defaultFlip
+  , defaultModifiers
+  , defaultPreventOverflow
+  , destroyPopper
+  , flipPlacement
+  , forceUpdate
+  , offset
+  , pAll
+  , preventOverflow
+  )
 import Control.Monad.Maybe.Trans (MaybeT(..), runMaybeT)
 import Control.MonadPlus (guard)
 import Data.Filterable (filterMap)
@@ -14,7 +43,16 @@ import Data.Lens (assign, set, use)
 import Data.Traversable (for, traverse)
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
-import Halogen (Component, HalogenM, Slot, get, getHTMLElementRef, liftEffect, mkComponent, modify_)
+import Halogen
+  ( Component
+  , HalogenM
+  , Slot
+  , get
+  , getHTMLElementRef
+  , liftEffect
+  , mkComponent
+  , modify_
+  )
 import Halogen as H
 import Halogen.HTML (ComponentHTML, PlainHTML, slot)
 import Halogen.Query.Event.Extra (eventListenerEffect)

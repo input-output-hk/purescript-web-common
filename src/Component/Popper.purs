@@ -7,7 +7,19 @@ module Component.Popper
   ) where
 
 import Component.Popper.Types
-import Component.Popper.Internal (createPopper, forceUpdate, destroyPopper, arrow, computeStyles, applyStyles, eventListeners, popperOffsets, offset, preventOverflow, flipPlacement) as ExportedInternal
+import Component.Popper.Internal
+  ( createPopper
+  , forceUpdate
+  , destroyPopper
+  , arrow
+  , computeStyles
+  , applyStyles
+  , eventListeners
+  , popperOffsets
+  , offset
+  , preventOverflow
+  , flipPlacement
+  ) as ExportedInternal
 
 defaultModifiers :: Array Modifier
 defaultModifiers =

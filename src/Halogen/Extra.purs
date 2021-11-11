@@ -13,7 +13,16 @@ import Type.Proxy (Proxy(..))
 import Data.Tuple (Tuple(..))
 import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Uncurried (EffectFn1, runEffectFn1)
-import Halogen (Component, ComponentHTML, HalogenF(..), HalogenM(..), RefLabel, Slot, getHTMLElementRef, mkComponent)
+import Halogen
+  ( Component
+  , ComponentHTML
+  , HalogenF(..)
+  , HalogenM(..)
+  , RefLabel
+  , Slot
+  , getHTMLElementRef
+  , mkComponent
+  )
 import Halogen as H
 import Halogen.HTML (IProp, div_, slot)
 import Halogen.HTML.Core (Prop)

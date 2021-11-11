@@ -15,7 +15,16 @@ import Data.Newtype (class Newtype)
 import Data.Nullable (Nullable, toMaybe)
 import Data.String.Regex (Regex)
 import Effect (Effect)
-import Effect.Uncurried (EffectFn1, EffectFn2, EffectFn3, EffectFn4, runEffectFn1, runEffectFn2, runEffectFn3, runEffectFn4)
+import Effect.Uncurried
+  ( EffectFn1
+  , EffectFn2
+  , EffectFn3
+  , EffectFn4
+  , runEffectFn1
+  , runEffectFn2
+  , runEffectFn3
+  , runEffectFn4
+  )
 import Foreign.Object (Object)
 import Foreign.Object as Object
 import Type.Proxy (Proxy(..))

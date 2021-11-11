@@ -2,7 +2,12 @@ module Control.Monad.Error.Extra where
 
 import Control.Monad (pure, (=<<))
 import Control.Monad.Except (Except)
-import Control.Monad.Except.Trans (class MonadThrow, ExceptT, runExceptT, throwError)
+import Control.Monad.Except.Trans
+  ( class MonadThrow
+  , ExceptT
+  , runExceptT
+  , throwError
+  )
 import Data.Either (Either(..), either)
 import Data.Function (($), (<<<))
 import Data.Newtype (unwrap)

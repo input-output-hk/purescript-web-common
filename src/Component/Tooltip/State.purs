@@ -1,9 +1,37 @@
 module Component.Tooltip.State (component, tooltip) where
 
 import Prologue
-import Component.Popper (OffsetOption(..), PaddingOption(..), Placement, PositioningStrategy(..), arrow, createPopper, defaultFlip, defaultModifiers, defaultPreventOverflow, destroyPopper, flipPlacement, forceUpdate, offset, pAll, preventOverflow)
-import Component.Tooltip.Lenses (_active, _mPopperInstance, _message, _placement)
-import Component.Tooltip.Types (Action(..), Input, ReferenceId(..), State, arrowRef, tooltipRef)
+import Component.Popper
+  ( OffsetOption(..)
+  , PaddingOption(..)
+  , Placement
+  , PositioningStrategy(..)
+  , arrow
+  , createPopper
+  , defaultFlip
+  , defaultModifiers
+  , defaultPreventOverflow
+  , destroyPopper
+  , flipPlacement
+  , forceUpdate
+  , offset
+  , pAll
+  , preventOverflow
+  )
+import Component.Tooltip.Lenses
+  ( _active
+  , _mPopperInstance
+  , _message
+  , _placement
+  )
+import Component.Tooltip.Types
+  ( Action(..)
+  , Input
+  , ReferenceId(..)
+  , State
+  , arrowRef
+  , tooltipRef
+  )
 import Component.Tooltip.View (render)
 import Control.Bind (bindFlipped)
 import Control.Monad.Maybe.Trans (MaybeT(..), runMaybeT)
@@ -11,7 +39,16 @@ import Data.Foldable (for_)
 import Data.Lens (assign, set, use)
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
-import Halogen (Component, HalogenM, Slot, get, getHTMLElementRef, liftEffect, mkComponent, modify_)
+import Halogen
+  ( Component
+  , HalogenM
+  , Slot
+  , get
+  , getHTMLElementRef
+  , liftEffect
+  , mkComponent
+  , modify_
+  )
 import Halogen as H
 import Halogen.HTML (ComponentHTML, slot)
 import Halogen.Query.Event (eventListener)

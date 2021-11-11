@@ -8,7 +8,13 @@ import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Uncurried (EffectFn1, runEffectFn1)
 import Halogen (RefLabel(..))
 import Halogen.Monaco (Settings)
-import Monaco (Editor, IStandaloneThemeData, LanguageExtensionPoint(..), MonarchLanguage, Theme)
+import Monaco
+  ( Editor
+  , IStandaloneThemeData
+  , LanguageExtensionPoint(..)
+  , MonarchLanguage
+  , Theme
+  )
 
 foreign import monarchTokensProvider_ :: EffectFn1 Unit MonarchLanguage
 

@@ -5,7 +5,16 @@ import DOM.HTML.Indexed (Interactive)
 import Data.Array as Array
 import Data.Newtype (unwrap)
 import Data.String (joinWith)
-import Halogen.HTML (AttrName(..), ClassName, ElemName(..), HTML, Namespace(..), Node, elementNS, text)
+import Halogen.HTML
+  ( AttrName(..)
+  , ClassName
+  , ElemName(..)
+  , HTML
+  , Namespace(..)
+  , Node
+  , elementNS
+  , text
+  )
 import Halogen.HTML as HH
 import Halogen.HTML.Properties (CSSPixel, IProp)
 

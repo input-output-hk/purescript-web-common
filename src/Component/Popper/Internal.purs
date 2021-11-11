@@ -16,7 +16,25 @@ module Component.Popper.Internal
 
 import Prelude
 
-import Component.Popper.Types (Boundary(..), ComputeStyleOptions, EventListenerOptions, Modifier, Offset, OffsetOption(..), Options, Padding(..), PaddingOption(..), Placement(..), PopperInstance, PositioningStrategy(..), PreventOverflowOptions, Rect, RootBoundary(..), TetherOffsetOption(..), FlipOptions)
+import Component.Popper.Types
+  ( Boundary(..)
+  , ComputeStyleOptions
+  , EventListenerOptions
+  , Modifier
+  , Offset
+  , OffsetOption(..)
+  , Options
+  , Padding(..)
+  , PaddingOption(..)
+  , Placement(..)
+  , PopperInstance
+  , PositioningStrategy(..)
+  , PreventOverflowOptions
+  , Rect
+  , RootBoundary(..)
+  , TetherOffsetOption(..)
+  , FlipOptions
+  )
 import Data.Argonaut.Core (Json, fromNumber, fromString)
 import Data.Argonaut.Encode (encodeJson)
 import Data.Array as Array

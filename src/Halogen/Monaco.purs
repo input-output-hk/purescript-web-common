@@ -14,7 +14,13 @@ import Data.Array (catMaybes)
 import Data.Enum (class BoundedEnum, class Enum)
 import Data.Generic.Rep (class Generic)
 import Data.Bounded.Generic (genericBottom, genericTop)
-import Data.Enum.Generic (genericCardinality, genericFromEnum, genericPred, genericSucc, genericToEnum)
+import Data.Enum.Generic
+  ( genericCardinality
+  , genericFromEnum
+  , genericPred
+  , genericSucc
+  , genericToEnum
+  )
 import Data.Eq.Generic (genericEq)
 import Data.Ord.Generic (genericCompare)
 import Data.Lens (Lens', set, use, view)
@@ -31,7 +37,24 @@ import Halogen.ElementResize (elementResize)
 import Halogen.HTML (HTML, div)
 import Halogen.HTML.Properties (class_, ref)
 import Halogen.Subscription as HS
-import Monaco (CodeActionProvider, CompletionItemProvider, DocumentFormattingEditProvider, Editor, HoverProvider, IDisposable, IMarker, IMarkerData, IModelDeltaDecoration, IPosition, IRange, LanguageExtensionPoint, MonarchLanguage, Theme, TokensProvider, dispose)
+import Monaco
+  ( CodeActionProvider
+  , CompletionItemProvider
+  , DocumentFormattingEditProvider
+  , Editor
+  , HoverProvider
+  , IDisposable
+  , IMarker
+  , IMarkerData
+  , IModelDeltaDecoration
+  , IPosition
+  , IRange
+  , LanguageExtensionPoint
+  , MonarchLanguage
+  , Theme
+  , TokensProvider
+  , dispose
+  )
 import Monaco as Monaco
 import Web.DOM.ResizeObserver (ResizeObserverBoxOptions(..))
 import Web.HTML.HTMLElement as HTMLElement

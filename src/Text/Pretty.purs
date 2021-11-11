@@ -23,7 +23,15 @@ import Data.Array (intersperse)
 import Data.BigInt.Argonaut (BigInt)
 import Data.BigInt.Argonaut as BigInt
 import Data.Foldable (any, fold, intercalate)
-import Data.Generic.Rep (class Generic, Argument(..), Constructor(..), NoArguments, Product(..), Sum(..), from)
+import Data.Generic.Rep
+  ( class Generic
+  , Argument(..)
+  , Constructor(..)
+  , NoArguments
+  , Product(..)
+  , Sum(..)
+  , from
+  )
 import Data.String.Extra (repeat)
 import Data.Symbol (class IsSymbol, reflectSymbol)
 import Type.Proxy (Proxy(..))
