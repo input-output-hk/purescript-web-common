@@ -11,6 +11,9 @@
       async
       src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.googleAnalyticsId %>"
     ></script>
+    <% if(htmlWebpackPlugin.options.vendorDll) { %>
+    <script src="<%= htmlWebpackPlugin.options.vendorDll %>"></script>
+    <% } %>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
