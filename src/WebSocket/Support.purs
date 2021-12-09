@@ -227,9 +227,7 @@ runWebSocketManagerListeners uri manager = do
   reconnect = do
     void
       $ AVar.take (_.socket $ unWebSocketManager manager)
-      $ withHandler
-      $ const
-      $ runWebSocketManagerListeners uri manager
+      $ withHandler \_ -> runWebSocketManagerListeners uri manager
 
 withHandler :: forall a. (a -> Effect Unit) -> AVarCallback a
 withHandler _ (Left err) = log $ "Fatal websocket error: " <> show err
