@@ -13,7 +13,7 @@
     ></script>
     <% if(htmlWebpackPlugin.options.vendorDll) { %>
     <script src="<%= htmlWebpackPlugin.options.vendorDll %>"></script>
-    <% } %>
+    <% } %> <% if(htmlWebpackPlugin.options.googleAnalyticsId) { %>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -26,6 +26,7 @@
         product: "<%= htmlWebpackPlugin.options.productName %>",
       });
     </script>
+    <% } %> <% if(htmlWebpackPlugin.options.segmentAnalyticsId) { %>
     <!-- Segment Analytics -->
     <script>
       !(function () {
@@ -91,6 +92,7 @@
           }
       })();
     </script>
+    <% } %>
   </head>
   <body></body>
 </html>
