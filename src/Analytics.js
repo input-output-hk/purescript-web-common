@@ -4,7 +4,7 @@
 
 exports.trackEvent_ = function (action, category, label, value) {
   // Google Analytics, the default.
-  if (gtag) {
+  if (typeof gtag !== "undefined") {
     gtag("event", action, {
       event_category: category,
       event_label: label,
