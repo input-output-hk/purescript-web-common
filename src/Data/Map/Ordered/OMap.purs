@@ -5,9 +5,14 @@ module Data.Map.Ordered.OMap
   , fromFoldable
   , fromFoldableWithIndex
   , insert
+  , insertAt
   , isEmpty
   , keys
+  , keyIndex
   , lookup
+  , moveLeft
+  , moveRight
+  , moveTo
   , singleton
   , toUnfoldable
   , unionWith
@@ -137,6 +142,15 @@ insert k v (OMap m) =
         unit
     ) -- Anonymous function wrapper added to delay computation of the default case
 
+keyIndex :: forall k v. Eq k => k -> OMap k v -> Maybe Int
+keyIndex k (OMap m) = Array.findIndex (eq k <<< fst) m
+
+insertAt :: forall k v. Ord k => Int -> k -> v -> OMap k v -> Maybe (OMap k v)
+insertAt i k v m = do
+  let
+    OMap m' = delete k m
+  OMap <$> Array.insertAt i (k /\ v) m'
+
 delete :: forall k v. Ord k => k -> OMap k v -> OMap k v
 delete k om = filterKeys ((/=) k) om
 
@@ -152,3 +166,16 @@ alter f k om = case mOldValue, mNewValue of
   mOldValue = lookup k om
 
   mNewValue = f mOldValue
+
+moveTo :: forall k v. Ord k => Int -> k -> OMap k v -> Maybe (OMap k v)
+moveTo i k m = do
+  v <- lookup k m
+  let
+    m' = delete k m
+  insertAt i k v m'
+
+moveLeft :: forall k v. Ord k => k -> OMap k v -> Maybe (OMap k v)
+moveLeft k m = keyIndex k m >>= \i -> moveTo (i - 1) k m
+
+moveRight :: forall k v. Ord k => k -> OMap k v -> Maybe (OMap k v)
+moveRight k m = keyIndex k m >>= \i -> moveTo (i + 1) k m
