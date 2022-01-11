@@ -63,6 +63,8 @@ data Icon
   | Timer
   | Tutorials
 
+derive instance eqIcon :: Eq Icon
+
 content :: Icon -> String
 content Add = "add"
 
