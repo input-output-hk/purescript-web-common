@@ -1,5 +1,7 @@
 module Icons where
 
+import Prologue
+
 import Halogen.HTML (ClassName(ClassName), HTML, i)
 import Halogen.HTML.Properties (class_)
 
@@ -30,6 +32,8 @@ data Icon
   | HourglassEnd
   | CheckCircle
   | ExclamationCircle
+
+derive instance eqIcon :: Eq Icon
 
 icon :: forall p i. Icon -> HTML p i
 icon iconType = i [ class_ (iconClass iconType) ] []
