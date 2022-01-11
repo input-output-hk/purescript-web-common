@@ -1,19 +1,31 @@
-module Data.Lens.Extra (hasable, useable, peruse, toArrayOf, toSetOf) where
+module Data.Lens.Extra
+  ( Preview
+  , Preview'
+  , hasable
+  , useable
+  , peruse
+  , toArrayOf
+  , toSetOf
+  ) where
 
-import Control.Category ((<<<))
+import Prologue
+
 import Control.Monad.State.Class (class MonadState, gets)
 import Data.Array as Array
-import Data.HeytingAlgebra (class HeytingAlgebra)
-import Data.Lens (APrism, is, has, toListOf)
+import Data.Lens (APrism, has, is, toListOf)
 import Data.Lens.Fold (Fold, preview)
 import Data.List (List)
-import Data.Maybe (Maybe)
 import Data.Maybe.First (First)
 import Data.Monoid.Disj (Disj)
 import Data.Monoid.Endo (Endo)
-import Data.Ord (class Ord)
 import Data.Set (Set)
 import Data.Set as Set
+
+-- | A preview.
+type Preview :: Type -> Type -> Type -> Type -> Type
+type Preview s t a b = forall r. Monoid r => Fold r s t a b
+
+type Preview' s a = Preview s s a a
 
 -- | Extract a `Maybe` in the context of `MonadState`.
 -- ie. `preview` on a `use`.
