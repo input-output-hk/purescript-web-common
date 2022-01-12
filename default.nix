@@ -1,9 +1,9 @@
-{ lib, gitignore-nix }:
+{ lib, gitignore-nix, pkgs ? import <nixpkgs> { } }:
 let
-  url = "https://github.com/input-output-hk/flake-compat/archive/20f79e3976b76a37090fbeec7b49dc08dac96b8e.tar.gz";
-  sha256 = "1lq1a2hrzcmybzxkl0qpzaylgzn4qpw6nngs5qggddgnawp1klkn";
+  url = "https://github.com/edolstra/flake-compat/archive/99f1c2157fba4bfe6211a321fd0ee43199025dbf.tar.gz";
+  sha256 = "0x2jn3vrawwv9xp15674wjz9pixwjyj3j771izayl962zziivbx2";
   src = ./.;
-  flake = import (fetchTarball { inherit url sha256; }) { inherit src; };
+  flake = import (pkgs.fetchTarball { inherit url sha256; }) { inherit src; };
 in
 {
   inherit flake;
