@@ -1,15 +1,14 @@
 module Halogen.Extra where
 
 import Prelude
+
 import Control.Applicative.Free (hoistFreeAp)
 import Control.Monad.Free (hoistFree)
-import Control.Monad.State (get)
 import Data.Bifunctor (bimap)
 import Data.Foldable (for_)
 import Data.Lens (Lens', Traversal', preview, set, view)
-import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Maybe (Maybe(..))
 import Data.Newtype (over)
-import Type.Proxy (Proxy(..))
 import Data.Tuple (Tuple(..))
 import Effect.Class (class MonadEffect, liftEffect)
 import Effect.Uncurried (EffectFn1, runEffectFn1)
@@ -29,9 +28,9 @@ import Halogen.HTML.Core (Prop)
 import Halogen.HTML.Core as Core
 import Halogen.Query (HalogenM)
 import Halogen.Query.HalogenM (HalogenAp(..), mapAction)
-import Halogen.Query.HalogenM (imapState) as Halogen
 import Halogen.Query.Input (Input)
 import Halogen.Query.Input as Input
+import Type.Proxy (Proxy(..))
 import Unsafe.Coerce (unsafeCoerce)
 import Web.HTML.HTMLElement (HTMLElement)
 
@@ -106,30 +105,6 @@ renderSubmodule optic actionWrapper render state =
   in
     mapComponentAction actionWrapper rendered
 
--- | This lets you map the state of a submodule that may not exist,
--- | given an affine traversal into that optional substate. It's
--- | an ugly solution, and it suffers from the same problem with
--- | Halogen's `imapState` noted above. But for now, at least it works.
-mapMaybeSubmodule
-  :: forall m state state' action action' slots msg
-   . Functor m
-  => Traversal' state state'
-  -> (action' -> action)
-  -> state'
-  -> HalogenM state' action' slots msg m Unit
-  -> HalogenM state action slots msg m Unit
-mapMaybeSubmodule traversal wrapper submoduleDefaultState submoduleHandleAction =
-  do
-    state <- get
-    let
-      subToMain :: state' -> state
-      subToMain submoduleState = set traversal submoduleState state
-
-      mainToSub :: state -> state'
-      mainToSub = fromMaybe submoduleDefaultState <<< preview traversal
-    Halogen.imapState subToMain mainToSub $ mapAction wrapper $
-      submoduleHandleAction
-
 foreign import scrollIntoView_ :: EffectFn1 HTMLElement Unit
 
 scrollIntoView
@@ -137,6 +112,7 @@ scrollIntoView
    . MonadEffect m
   => RefLabel
   -> HalogenM surface action slots output m Unit
+
 scrollIntoView ref = do
   mElement <- getHTMLElementRef ref
   for_ mElement (liftEffect <<< runEffectFn1 scrollIntoView_)
