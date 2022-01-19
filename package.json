@@ -1,6 +1,6 @@
 {
   "name": "@input-output-hk/purescript-web-common",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Common web development library for PureScript projects at IO Global",
   "author": "IO Global",
   "license": "Apache-2.0",
