@@ -65,14 +65,21 @@ let additions =
         }
       , servant-support =
         { dependencies =
-          [ "affjax"
-          , "argonaut-codecs"
-          , "argonaut-core"
+          [ "aff"
+          , "affjax"
+          , "argonaut"
+          , "arrays"
+          , "bifunctors"
+          , "either"
+          , "newtype"
           , "prelude"
           , "psci-support"
+          , "strings"
+          , "transformers"
+          , "uri"
           ]
         , repo = "https://github.com/input-output-hk/purescript-servant-support"
-        , version = "78a0693a9409bce31bf538a8f2aa54adb8200733"
+        , version = "1fcf4e93723f7f5d36476735b76888938ced871e"
         }
       , json-helpers =
         { dependencies =
