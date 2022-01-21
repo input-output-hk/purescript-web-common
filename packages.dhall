@@ -117,6 +117,7 @@ let additions =
           [ "aff"
           , "aff-promise"
           , "affjax"
+          , "argonaut"
           , "argonaut-codecs"
           , "argonaut-core"
           , "arrays"
@@ -180,7 +181,7 @@ let additions =
           , "web-uievents"
           ]
         , repo = "https://github.com/input-output-hk/purescript-web-common"
-        , version = "v2.0.0"
+        , version = "v2.0.1"
         }
       }
 
