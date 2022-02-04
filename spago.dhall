@@ -2,8 +2,6 @@
 , dependencies =
   [ "aff"
   , "aff-promise"
-  , "affjax"
-  , "argonaut"
   , "argonaut-codecs"
   , "argonaut-core"
   , "arrays"
@@ -49,7 +47,6 @@
   , "psci-support"
   , "quickcheck"
   , "rationals"
-  , "servant-support"
   , "spec"
   , "spec-quickcheck"
   , "strings"
