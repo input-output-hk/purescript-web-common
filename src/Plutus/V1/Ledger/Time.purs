@@ -1,7 +1,10 @@
 -- As 'POSIXTime' from 'Plutus.V1.Ledger.Time' has a custom 'FromJSON' and 'ToJSON'
 -- instances, we declare the corresponding 'POSIXTime' PureScript type here since
 -- the PSGenerator Generic instances won't match.
-module Plutus.V1.Ledger.Time where
+module Plutus.V1.Ledger.Time
+  ( POSIXTime(..)
+  , _POSIXTime
+  ) where
 
 import Prelude
 import Data.Argonaut.Decode (class DecodeJson)
@@ -15,11 +18,14 @@ import Data.Lens (Iso')
 import Data.Lens.Iso.Newtype (_Newtype)
 import Data.Newtype (class Newtype, unwrap, wrap)
 import Data.Show.Generic (genericShow)
+import Text.Pretty (class Args, class Pretty, pretty)
 
 newtype POSIXTime
   = POSIXTime { getPOSIXTime :: BigInt }
 
 derive instance eqPOSIXTime :: Eq POSIXTime
+
+derive instance ordPOSIXTime :: Ord POSIXTime
 
 instance showPOSIXTime :: Show POSIXTime where
   show x = genericShow x
@@ -33,6 +39,19 @@ instance decodeJsonPOSIXTime :: DecodeJson POSIXTime where
 derive instance genericPOSIXTime :: Generic POSIXTime _
 
 derive instance newtypePOSIXTime :: Newtype POSIXTime _
+
+derive newtype instance semiRingPOSIXTime :: Semiring POSIXTime
+
+derive newtype instance ringPOSIXTime :: Ring POSIXTime
+
+instance prettyPOSIXTime :: Pretty POSIXTime where
+  pretty (POSIXTime a) = pretty a.getPOSIXTime
+
+instance argsPOSIXTime :: Args POSIXTime where
+  hasArgs _ = false
+  hasNestedArgs _ = false
+
+instance commutativeRingPOSIXTime :: CommutativeRing POSIXTime
 
 --------------------------------------------------------------------------------
 _POSIXTime :: Iso' POSIXTime { getPOSIXTime :: BigInt }
