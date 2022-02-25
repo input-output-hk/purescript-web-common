@@ -2,6 +2,7 @@
 , dependencies =
   [ "aff"
   , "aff-promise"
+  , "argonaut"
   , "argonaut-codecs"
   , "argonaut-core"
   , "arrays"
@@ -41,6 +42,7 @@
   , "nullable"
   , "ordered-collections"
   , "parallel"
+  , "partial"
   , "prelude"
   , "profunctor"
   , "profunctor-lenses"

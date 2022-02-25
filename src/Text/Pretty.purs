@@ -22,6 +22,7 @@ import Prelude
 import Data.Array (intersperse)
 import Data.BigInt.Argonaut (BigInt)
 import Data.BigInt.Argonaut as BigInt
+import Data.DateTime.Instant (Instant, unInstant)
 import Data.Foldable (any, fold, intercalate)
 import Data.Generic.Rep
   ( class Generic
@@ -32,8 +33,11 @@ import Data.Generic.Rep
   , Sum(..)
   , from
   )
+import Data.Maybe (fromJust)
+import Data.Newtype (unwrap)
 import Data.String.Extra (repeat)
 import Data.Symbol (class IsSymbol, reflectSymbol)
+import Partial.Unsafe (unsafePartial)
 import Type.Proxy (Proxy(..))
 
 data Doc
@@ -82,6 +86,14 @@ class Pretty a where
 
 instance prettyString :: Pretty String where
   pretty = text <<< show
+
+instance prettyInstant :: Pretty Instant where
+  pretty instant = pretty
+    $ unsafePartial
+    $ fromJust
+    $ BigInt.fromNumber
+    $ unwrap
+    $ unInstant instant
 
 instance prettyBigInt :: Pretty BigInt where
   pretty = text <<< BigInt.toString
