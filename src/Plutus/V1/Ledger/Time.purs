@@ -72,9 +72,10 @@ toDuration :: forall d. Duration d => POSIXTime -> d
 toDuration = convertDuration <<< unInstant <<< unwrap
 
 toLocalDateTime :: Minutes -> POSIXTime -> Maybe DateTime
-toLocalDateTime tzOffset = DT.adjust tzOffset <<< toDateTime <<< unwrap
+toLocalDateTime tzOffset = DT.adjust (over Minutes negate tzOffset :: Minutes)
+  <<< toDateTime
+  <<< unwrap
 
 fromLocalDateTime :: Minutes -> DateTime -> Maybe POSIXTime
 fromLocalDateTime tzOffset =
-  map (POSIXTime <<< fromDateTime) <<< DT.adjust
-    (over Minutes negate tzOffset :: Minutes)
+  map (POSIXTime <<< fromDateTime) <<< DT.adjust tzOffset
