@@ -1,6 +1,7 @@
 module Component.Hint.State (component, hint) where
 
 import Prologue
+
 import Component.Hint.Lenses
   ( _active
   , _content
@@ -124,15 +125,14 @@ handleAction Init = do
   mPopperInstance <-
     runMaybeT do
       arrowElem <- MaybeT $ getHTMLElementRef arrowRef
-      let
-        modifiers =
-          defaultModifiers
-            <>
-              [ arrow arrowElem (PaddingValue $ pAll 0.0)
-              , offset (OffsetValue { skidding: 0.0, distance: 8.0 })
-              , preventOverflow defaultPreventOverflow
-              , flipPlacement defaultFlip
-              ]
+      modifiers <- liftEffect $ defaultModifiers <#>
+        ( _ <>
+            [ arrow arrowElem (PaddingValue $ pAll 0.0)
+            , offset (OffsetValue { skidding: 0.0, distance: 8.0 })
+            , preventOverflow defaultPreventOverflow
+            , flipPlacement defaultFlip
+            ]
+        )
       hintElem <- MaybeT $ getHTMLElementRef hintRef
       popoutElem <- MaybeT $ getHTMLElementRef popoutRef
       liftEffect $ createPopper hintElem popoutElem

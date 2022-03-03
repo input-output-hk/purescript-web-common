@@ -38,7 +38,7 @@ import Component.Popper.Types
 import Data.Argonaut.Core (Json, fromNumber, fromString)
 import Data.Argonaut.Encode (encodeJson)
 import Data.Array as Array
-import Data.Function.Uncurried (Fn0, Fn1, Fn2, runFn0, runFn1, runFn2)
+import Data.Function.Uncurried (Fn1, Fn2, runFn1, runFn2)
 import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Exception.Unsafe (unsafeThrow)
@@ -64,20 +64,20 @@ arrow elm (PaddingValue padding) = runFn2 _arrow elm (paddingToFFI padding)
 arrow elm (PaddingFn fn) = runFn2 _arrow elm $ unsafeCoerce
   (paddingToFFI <<< fn <<< optsFromFFI)
 
-foreign import _popperOffsets :: Fn0 Modifier
+foreign import _popperOffsets :: Effect Modifier
 
-popperOffsets :: Modifier
-popperOffsets = runFn0 _popperOffsets
+popperOffsets :: Effect Modifier
+popperOffsets = _popperOffsets
 
 foreign import _computeStyles :: Fn1 ComputeStyleOptions Modifier
 
 computeStyles :: ComputeStyleOptions -> Modifier
 computeStyles = runFn1 _computeStyles
 
-foreign import _applyStyles :: Fn0 Modifier
+foreign import _applyStyles :: Effect Modifier
 
-applyStyles :: Modifier
-applyStyles = runFn0 _applyStyles
+applyStyles :: Effect Modifier
+applyStyles = _applyStyles
 
 foreign import _eventListeners :: Fn1 EventListenerOptions Modifier
 

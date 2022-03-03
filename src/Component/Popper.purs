@@ -6,7 +6,33 @@ module Component.Popper
   , defaultFlip
   ) where
 
+import Prologue hiding (Either(..))
+
 import Component.Popper.Types
+  ( Boundary(..)
+  , CalculateFromBoundingBox
+  , ComputeStyleOptions
+  , EventListenerOptions
+  , FlipOptions
+  , Modifier
+  , Offset
+  , OffsetOption(..)
+  , Options
+  , Padding(..)
+  , PaddingOption(..)
+  , Placement(..)
+  , PopperInstance
+  , PositioningStrategy(..)
+  , PreventOverflowOptions
+  , Rect
+  , RootBoundary(..)
+  , TetherOffsetOption(..)
+  , pAll
+  , pBottom
+  , pLeft
+  , pRight
+  , pTop
+  )
 import Component.Popper.Internal
   ( createPopper
   , forceUpdate
@@ -20,21 +46,24 @@ import Component.Popper.Internal
   , preventOverflow
   , flipPlacement
   ) as ExportedInternal
+import Effect (Effect)
 
-defaultModifiers :: Array Modifier
+defaultModifiers :: Effect (Array Modifier)
 defaultModifiers =
-  [ ExportedInternal.computeStyles
-      { gpuAcceleration: true
-      , adaptive: true
-      , roundOffsets: true
-      }
-  , ExportedInternal.applyStyles
-  , ExportedInternal.eventListeners
-      { scroll: true
-      , resize: true
-      }
-  , ExportedInternal.popperOffsets
-  ]
+  ( \applyStyles popperOffsets ->
+      [ ExportedInternal.computeStyles
+          { gpuAcceleration: true
+          , adaptive: true
+          , roundOffsets: true
+          }
+      , applyStyles
+      , ExportedInternal.eventListeners
+          { scroll: true
+          , resize: true
+          }
+      , popperOffsets
+      ]
+  ) <$> ExportedInternal.applyStyles <*> ExportedInternal.popperOffsets
 
 defaultPreventOverflow :: PreventOverflowOptions
 defaultPreventOverflow =

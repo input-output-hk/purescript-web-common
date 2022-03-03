@@ -1,6 +1,7 @@
 module Component.Tooltip.State (component, tooltip) where
 
 import Prologue
+
 import Component.Popper
   ( OffsetOption(..)
   , PaddingOption(..)
@@ -122,15 +123,14 @@ handleAction Init = do
   mPopperInstance <-
     runMaybeT do
       arrowElem <- MaybeT $ getHTMLElementRef arrowRef
-      let
-        modifiers =
-          defaultModifiers
-            <>
-              [ arrow arrowElem (PaddingValue $ pAll 0.0)
-              , offset (OffsetValue { skidding: 0.0, distance: 8.0 })
-              , preventOverflow defaultPreventOverflow
-              , flipPlacement defaultFlip
-              ]
+      modifiers <- liftEffect $ defaultModifiers <#>
+        ( _ <>
+            [ arrow arrowElem (PaddingValue $ pAll 0.0)
+            , offset (OffsetValue { skidding: 0.0, distance: 8.0 })
+            , preventOverflow defaultPreventOverflow
+            , flipPlacement defaultFlip
+            ]
+        )
       refElem <- MaybeT $ liftEffect $ getElementById' refId
       tooltipElem <- MaybeT $ getHTMLElementRef tooltipRef
       popperInstance <- liftEffect $ createPopper refElem tooltipElem
