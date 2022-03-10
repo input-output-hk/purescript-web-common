@@ -44,6 +44,8 @@ import Data.Lens (assign, set, use)
 import Data.Traversable (for, traverse)
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
+import Effect.Unsafe (unsafePerformEffect)
+import Environment (Environment(..), currentEnvironment)
 import Halogen
   ( Component
   , HalogenM
@@ -55,7 +57,7 @@ import Halogen
   , modify_
   )
 import Halogen as H
-import Halogen.HTML (ComponentHTML, PlainHTML, slot)
+import Halogen.HTML (ComponentHTML, PlainHTML, slot, text)
 import Halogen.Query.Event.Extra (eventListenerEffect)
 import Halogen.Subscription as HS
 import Type.Proxy (Proxy(..))
@@ -101,19 +103,27 @@ component
   :: forall m query
    . MonadAff m
   => Component query Input Void m
-component =
-  mkComponent
-    { initialState
-    , render
-    , eval:
-        H.mkEval
-          $ H.defaultEval
-              { initialize = Just Init
-              , finalize = Just Finalize
-              , handleAction = handleAction
-              , receive = \input -> Just $ OnNewInput input
-              }
-    }
+component = case unsafePerformEffect currentEnvironment of
+  -- Popper doesn't work in node, so we need to disable this component.
+  NodeJs ->
+    mkComponent
+      { initialState
+      , render: const $ text ""
+      , eval: H.mkEval H.defaultEval
+      }
+  Browser ->
+    mkComponent
+      { initialState
+      , render
+      , eval:
+          H.mkEval
+            $ H.defaultEval
+                { initialize = Just Init
+                , finalize = Just Finalize
+                , handleAction = handleAction
+                , receive = \input -> Just $ OnNewInput input
+                }
+      }
 
 handleAction
   :: forall m slots
