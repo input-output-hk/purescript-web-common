@@ -40,6 +40,8 @@ import Data.Foldable (for_)
 import Data.Lens (assign, set, use)
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
+import Effect.Unsafe (unsafePerformEffect)
+import Environment (Environment(..), currentEnvironment)
 import Halogen
   ( Component
   , HalogenM
@@ -51,7 +53,7 @@ import Halogen
   , modify_
   )
 import Halogen as H
-import Halogen.HTML (ComponentHTML, slot)
+import Halogen.HTML (ComponentHTML, slot, text)
 import Halogen.Query.Event (eventListener)
 import Type.Proxy (Proxy(..))
 import Web.DOM.NonElementParentNode (getElementById)
@@ -91,19 +93,27 @@ component
   :: forall m query
    . MonadAff m
   => Component query Input Void m
-component =
-  mkComponent
-    { initialState
-    , render
-    , eval:
-        H.mkEval
-          $ H.defaultEval
-              { initialize = Just Init
-              , finalize = Just Finalize
-              , handleAction = handleAction
-              , receive = \input -> Just $ OnNewInput input
-              }
-    }
+component = case unsafePerformEffect currentEnvironment of
+  -- Popper doesn't work in node, so we need to disable this component.
+  NodeJs ->
+    mkComponent
+      { initialState
+      , render: const $ text ""
+      , eval: H.mkEval H.defaultEval
+      }
+  Browser ->
+    mkComponent
+      { initialState
+      , render
+      , eval:
+          H.mkEval
+            $ H.defaultEval
+                { initialize = Just Init
+                , finalize = Just Finalize
+                , handleAction = handleAction
+                , receive = \input -> Just $ OnNewInput input
+                }
+      }
 
 -- We need to use id and not RefLabel because the RefLabel don't cross component boundaries.
 getElementById' :: String -> Effect (Maybe HTMLElement)
