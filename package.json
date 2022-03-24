@@ -37,6 +37,7 @@
   "devDependencies": {
     "@popperjs/core": "^2.9.2",
     "big-integer": "^1.6.50",
+    "bignumber.js": "^9.0.2",
     "chartist": "^0.11.4",
     "chartist-plugin-axistitle": "^0.0.7",
     "chartist-plugin-tooltips": "^0.0.17",

@@ -47,7 +47,7 @@ instance Show POSIXTime where
 instance EncodeJson POSIXTime where
   encodeJson = encodeJson <<< toBigInt
 
-instance decodeJsonPOSIXTime :: DecodeJson POSIXTime where
+instance DecodeJson POSIXTime where
   decodeJson = (note (TypeMismatch "POSIXTime") <<< fromBigInt) <=< decodeJson
 
 derive newtype instance Pretty POSIXTime
