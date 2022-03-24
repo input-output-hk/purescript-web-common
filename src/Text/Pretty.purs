@@ -1,21 +1,4 @@
-module Text.Pretty
-  ( class Pretty
-  , pretty
-  , Doc
-  , class Args
-  , hasArgs
-  , hasNestedArgs
-  , text
-  , sep
-  , hsep
-  , vsep
-  , class GenericArgs
-  , gHasArgs
-  , gHasNestedArgs
-  , genericHasArgs
-  , genericHasNestedArgs
-  , genericPretty
-  ) where
+module Text.Pretty where
 
 import Prelude
 
