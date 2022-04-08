@@ -22,6 +22,7 @@ avatarWithChildren { background, nickname, size } avatarChildren =
     [ classNames
         $
           [ "flex"
+          , "flex-shrink-0"
           , "items-center"
           , "justify-center"
           , "rounded-full"
