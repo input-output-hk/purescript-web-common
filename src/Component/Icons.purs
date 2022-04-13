@@ -8,6 +8,7 @@ module Component.Icons
   ) where
 
 import Prelude
+
 import Data.Array (cons)
 import Halogen.HTML (ClassName(ClassName), HTML, span, text)
 import Halogen.HTML.Properties (classes)
@@ -44,6 +45,7 @@ data Icon
   | History
   | Home
   | Info
+  | ImportExport
   | Language
   | Menu
   | Next
@@ -107,6 +109,8 @@ content HelpOutline = "help_outline"
 content History = "history"
 
 content Home = "home"
+
+content ImportExport = "import_export"
 
 content Info = "info"
 
@@ -191,6 +195,8 @@ iconClass HelpOutline = "help-outline"
 iconClass History = "history"
 
 iconClass Home = "home"
+
+iconClass ImportExport = "import-export"
 
 iconClass Info = "info"
 
