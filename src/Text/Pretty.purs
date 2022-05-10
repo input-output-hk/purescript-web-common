@@ -29,16 +29,18 @@ data Doc
   | Cat Doc Doc
   | Empty
 
-instance showDoc :: Show Doc where
+derive instance Eq Doc
+
+instance Show Doc where
   show Empty = mempty
   show (Text str) = str
   show (Newline n) = "\n" <> repeat n " "
   show (Cat a b) = show a <> show b
 
-instance semigroupDoc :: Semigroup Doc where
+instance Semigroup Doc where
   append = Cat
 
-instance monoidDoc :: Monoid Doc where
+instance Monoid Doc where
   mempty = Empty
 
 newline :: Doc
