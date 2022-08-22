@@ -1,6 +1,4 @@
-"use strict";
-
-exports._intersectionObserver = function (config) {
+export function _intersectionObserver(config) {
   return function (cb) {
     return function () {
       return new IntersectionObserver(function (entries, observer) {
@@ -8,26 +6,26 @@ exports._intersectionObserver = function (config) {
       }, config);
     };
   };
-};
+}
 
-exports.observe = function (element) {
+export function observe(element) {
   return function (observer) {
     return function () {
       return observer.observe(element);
     };
   };
-};
+}
 
-exports.unobserve = function (element) {
+export function unobserve(element) {
   return function (observer) {
     return function () {
       return observer.unobserve(element);
     };
   };
-};
+}
 
-exports.disconnect = function (observer) {
+export function disconnect(observer) {
   return function () {
     return observer.disconnect();
   };
-};
+}

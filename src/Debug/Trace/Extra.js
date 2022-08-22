@@ -1,7 +1,4 @@
-/*eslint-env node*/
-"use strict";
-
-exports._traceTime = function () {
+export function _traceTime() {
   return function (label) {
     return function (action) {
       console.time(label);
@@ -10,4 +7,4 @@ exports._traceTime = function () {
       return result;
     };
   };
-};
+}

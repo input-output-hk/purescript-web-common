@@ -3,6 +3,7 @@
 module Halogen.Animation where
 
 import Prelude
+
 import Control.Promise (Promise, toAffE)
 import Data.Array (filter)
 import Data.Traversable (traverse)
@@ -12,12 +13,11 @@ import Effect.Class (liftEffect)
 import Effect.Uncurried (EffectFn1, EffectFn2, runEffectFn1, runEffectFn2)
 import Halogen.Subscription as HS
 import Web.DOM.DOMTokenList as DOMTokenList
-import Web.HTML (HTMLElement)
-import Web.HTML.HTMLElement (classList)
+import Web.DOM.Element (Element, classList)
 
 foreign import data CSSAnimation :: Type
 
-foreign import getAnimations_ :: EffectFn1 HTMLElement (Array CSSAnimation)
+foreign import getAnimations_ :: EffectFn1 Element (Array CSSAnimation)
 
 foreign import getAnimationName :: CSSAnimation -> String
 
@@ -25,7 +25,7 @@ foreign import setOnFinishHandler_ :: EffectFn2 CSSAnimation (Effect Unit) Unit
 
 foreign import animationFinished_ :: EffectFn1 CSSAnimation (Promise Unit)
 
-getAnimations :: HTMLElement -> Effect (Array CSSAnimation)
+getAnimations :: Element -> Effect (Array CSSAnimation)
 getAnimations = runEffectFn1 getAnimations_
 
 -- The feautre is experimental and is not supported on Internet Explorer.
@@ -48,7 +48,7 @@ animateAndWaitUntilFinishSubscription
   :: forall action
    . String
   -> action
-  -> HTMLElement
+  -> Element
   -> HS.Emitter action
 animateAndWaitUntilFinishSubscription animationName action element =
   HS.makeEmitter \push -> do
@@ -74,7 +74,7 @@ animateAndWaitUntilFinishSubscription animationName action element =
 -- to sequence animations.
 animateAndWaitUntilFinish
   :: String
-  -> HTMLElement
+  -> Element
   -> Aff Unit
 animateAndWaitUntilFinish animationName element = do
   let
@@ -93,7 +93,7 @@ animateAndWaitUntilFinish animationName element = do
   -- We remove the css class so we can redo the animation if necessary
   liftEffect $ DOMTokenList.remove classes className
 
-waitForAllAnimations :: HTMLElement -> Aff Unit
+waitForAllAnimations :: Element -> Aff Unit
 waitForAllAnimations element = do
   animations <- liftEffect $ getAnimations element
   void $ traverse animationFinished animations

@@ -1,65 +1,65 @@
-exports._arrow = function (element, padding) {
-  const modifier = require("@popperjs/core/lib/modifiers/arrow").default;
-  return Object.assign({}, modifier, {
+import arrowModifier from "@popperjs/core/lib/modifiers/arrow.js";
+import popperOffsets from "@popperjs/core/lib/modifiers/popperOffsets.js";
+import computeStylesModifier from "@popperjs/core/lib/modifiers/computeStyles.js";
+import applyStylesModifier from "@popperjs/core/lib/modifiers/applyStyles.js";
+import eventListenerModifier from "@popperjs/core/lib/modifiers/eventListeners.js";
+import offsetModifier from "@popperjs/core/lib/modifiers/offset.js";
+import preventOverflowModifier from "@popperjs/core/lib/modifiers/preventOverflow.js";
+import flipPlacementModifier from "@popperjs/core/lib/modifiers/flip.js";
+import { createPopper } from "@popperjs/core/lib/createPopper.js";
+
+export function _arrow(element, padding) {
+  return Object.assign({}, arrowModifier, {
     options: { element, padding },
   });
-};
+}
 
-exports._popperOffsets = function () {
-  return require("@popperjs/core/lib/modifiers/popperOffsets").default;
-};
+export function _popperOffsets() {
+  return popperOffsets;
+}
 
-exports._computeStyles = function (options) {
-  const modifier =
-    require("@popperjs/core/lib/modifiers/computeStyles").default;
-  return Object.assign({}, modifier, {
+export function _computeStyles(options) {
+  return Object.assign({}, computeStylesModifier, {
     options,
   });
-};
+}
 
-exports._applyStyles = function () {
-  return require("@popperjs/core/lib/modifiers/applyStyles").default;
-};
+export function _applyStyles() {
+  return applyStylesModifier;
+}
 
-exports._eventListeners = function (options) {
-  const modifier =
-    require("@popperjs/core/lib/modifiers/eventListeners").default;
-  return Object.assign({}, modifier, {
+export function _eventListeners(options) {
+  return Object.assign({}, eventListenerModifier, {
     options,
   });
-};
+}
 
-exports._offset = function (options) {
-  const modifier = require("@popperjs/core/lib/modifiers/offset").default;
-  return Object.assign({}, modifier, {
+export function _offset(options) {
+  return Object.assign({}, offsetModifier, {
     options,
   });
-};
+}
 
-exports._preventOverflow = function (options) {
-  const modifier =
-    require("@popperjs/core/lib/modifiers/preventOverflow").default;
-  return Object.assign({}, modifier, {
+export function _preventOverflow(options) {
+  return Object.assign({}, preventOverflowModifier, {
     options,
   });
-};
+}
 
-exports._flipPlacement = function (options) {
-  const modifier = require("@popperjs/core/lib/modifiers/flip").default;
-  return Object.assign({}, modifier, {
+export function _flipPlacement(options) {
+  return Object.assign({}, flipPlacementModifier, {
     options,
   });
-};
+}
 
-exports._createPopper = function (reference, popper, options) {
-  const { createPopper } = require("@popperjs/core/lib/createPopper");
+export function _createPopper(reference, popper, options) {
   return createPopper(reference, popper, options);
-};
+}
 
-exports._destroyPopper = function (instance) {
+export function _destroyPopper(instance) {
   instance.destroy();
-};
+}
 
-exports._forceUpdate = function (instance) {
+export function _forceUpdate(instance) {
   instance.forceUpdate();
-};
+}

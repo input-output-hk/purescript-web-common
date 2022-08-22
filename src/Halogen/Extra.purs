@@ -45,9 +45,10 @@ imapState
        ~> HalogenM state' action slots output m
 imapState lens (HalogenM h) = HalogenM (hoistFree go h)
   where
-  go :: HalogenF state action slots output m ~> HalogenF state' action slots
-    output
-    m
+  go
+    :: HalogenF state action slots output m ~> HalogenF state' action slots
+         output
+         m
   go = case _ of
     State fs ->
       State
@@ -65,6 +66,7 @@ imapState lens (HalogenM h) = HalogenM (hoistFree go h)
     Par p -> Par (over HalogenAp (hoistFreeAp (imapState lens)) p)
     Fork hmu k -> Fork (imapState lens hmu) k
     Kill fid a -> Kill fid a
+    Join fid a -> Join fid a
     GetRef p k -> GetRef p k
 
 mapSubmodule

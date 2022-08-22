@@ -3,21 +3,20 @@ module Data.Foldable.Extra.Spec
   ) where
 
 import Prelude
-import Data.Array (replicate, length)
+
+import Data.Array (length, replicate)
+import Data.Array.NonEmpty.Internal (NonEmptyArray(..))
 import Data.Foldable (foldMap, null)
-import Data.Foldable.Extra (interleave, countConsecutive)
+import Data.Foldable.Extra (countConsecutive, interleave)
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
-import Data.List as List
-import Data.Newtype (wrap)
-import Data.NonEmpty ((:|))
 import Data.Tuple (uncurry)
 import Data.Tuple.Nested (type (/\), (/\))
 import Test.QuickCheck (class Arbitrary, arbitrary, (<=?), (===))
 import Test.QuickCheck.Gen (Gen, frequency, suchThat)
-import Test.Spec.QuickCheck (quickCheck)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
+import Test.Spec.QuickCheck (quickCheck)
 
 foldableExtraSpec :: Spec Unit
 foldableExtraSpec =
@@ -63,14 +62,14 @@ instance showMsg :: Show Msg where
 instance arbitraryMsg :: Arbitrary Msg where
   arbitrary =
     frequency
-      $ wrap
-      $ (20.0 /\ pure Heartbeat)
-          :| List.fromFoldable
-            [ 1.0 /\ pure Startup
-            , 3.0 /\ pure (Healthy true)
-            , 2.0 /\ pure (Healthy false)
-            , 1.0 /\ pure Shutdown
-            ]
+      $ NonEmptyArray
+      $
+        [ (20.0 /\ pure Heartbeat)
+        , 1.0 /\ pure Startup
+        , 3.0 /\ pure (Healthy true)
+        , 2.0 /\ pure (Healthy false)
+        , 1.0 /\ pure Shutdown
+        ]
 
 countConsecutiveSpec :: Spec Unit
 countConsecutiveSpec = do

@@ -1,20 +1,20 @@
-exports._scrollTo = function (options) {
+export function _scrollTo(options) {
   return function (element) {
     return function () {
       element.scrollTo(options);
     };
   };
-};
+}
 
-exports._scrollIntoView = function (options) {
+export function _scrollIntoView(options) {
   return function (element) {
     return function () {
       element.scrollIntoView(options);
     };
   };
-};
+}
 
-exports.throttledOnScroll = function (waitWindow) {
+export function throttledOnScroll(waitWindow) {
   return function (element) {
     return function (cb) {
       return function () {
@@ -34,9 +34,9 @@ exports.throttledOnScroll = function (waitWindow) {
       };
     };
   };
-};
+}
 
-exports.debouncedOnScroll = function (waitWindow) {
+export function debouncedOnScroll(waitWindow) {
   return function (element) {
     return function (cb) {
       return function () {
@@ -55,4 +55,4 @@ exports.debouncedOnScroll = function (waitWindow) {
       };
     };
   };
-};
+}

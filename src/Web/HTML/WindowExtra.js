@@ -1,15 +1,15 @@
-exports._close = function (window) {
+export function _close(window) {
   window.close();
-};
+}
 
-exports._postMessage = function (message, targetOrigin, window) {
+export function _postMessage(message, targetOrigin, window) {
   window.postMessage(message, targetOrigin);
-};
+}
 
-exports._matchMedia = function (query, window) {
+export function _matchMedia(query, window) {
   return window.matchMedia(query);
-};
+}
 
-exports._matches = function (mediaQueryList) {
+export function _matches(mediaQueryList) {
   return mediaQueryList.matches;
-};
+}

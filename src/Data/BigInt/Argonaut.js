@@ -1,30 +1,28 @@
-"use strict";
+import bigInt from "big-integer";
+import JSONbig from "json-bigint";
 
-var bigInt = require("big-integer");
-var JSONbig = require("json-bigint");
-
-exports.patchJson = function () {
+export function patchJson() {
   var stringify = JSON.stringify;
   var parse = JSON.parse;
   JSON.stringify = JSONbig.stringify;
   JSON.parse = JSONbig.parse;
   return { stringify: stringify, parse: parse };
-};
+}
 
-exports.restoreJson = function (original) {
+export function restoreJson(original) {
   JSON.stringify = original.stringify;
   JSON.parse = original.parse;
-};
+}
 
-exports.decodeBigInt = function (fail, succ, json) {
+export function decodeBigInt(fail, succ, json) {
   if (Number.isInteger(json) || typeof json === "bigint") {
     return succ(bigInt(json));
   } else {
     return fail;
   }
-};
+}
 
-exports.encodeBigInt = function (a) {
+export function encodeBigInt(a) {
   if (JSON.stringify !== JSONbig.stringify) {
     console.warn(
       "Tried to encode BitInt without patching JSON.stringify. Wrap your app in Data.BigInt.Argonaut.withJsonPatch."
@@ -33,4 +31,4 @@ exports.encodeBigInt = function (a) {
   } else {
     return a.value;
   }
-};
+}

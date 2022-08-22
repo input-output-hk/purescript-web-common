@@ -1,4 +1,4 @@
-{ name = "purescript-bridge-json-helpers"
+{ name = "purescript-web-common"
 , dependencies =
   [ "aff"
   , "aff-promise"
@@ -55,7 +55,7 @@
   , "tailrec"
   , "transformers"
   , "tuples"
-  , "undefinable"
+  , "undefined-or"
   , "unfoldable"
   , "unsafe-coerce"
   , "uuid"

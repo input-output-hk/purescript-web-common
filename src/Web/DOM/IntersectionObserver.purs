@@ -12,15 +12,15 @@ module Web.DOM.IntersectionObserver
   ) where
 
 import Prelude
+
 import Effect (Effect)
 import Prim.Row (class Union)
 import Web.DOM (Element)
-import Web.HTML.HTMLElement (DOMRect)
+import Web.DOM.Element (DOMRect)
 
 foreign import data IntersectionObserver :: Type
 
-type IntersectionObserverEntry
-  =
+type IntersectionObserverEntry =
   { target :: Element
   -- time :: DOMHighResTimeStamp
   -- rootBounds :: Nullable DOMRect
@@ -30,8 +30,7 @@ type IntersectionObserverEntry
   , intersectionRatio :: Number
   }
 
-type IntersectionObserverInitFields
-  =
+type IntersectionObserverInitFields =
   ( {- NOTE: The spec says it can be a Element or Document. For the moment I choose
            Element for simplicity, maybe it would be a good idea to add a wrapper data
            ElementOrDocument

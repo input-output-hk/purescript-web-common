@@ -1,5 +1,5 @@
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.14.4-20211028/packages.dhall sha256:df6486e7fad6dbe724c4e2ee5eac65454843dce1f6e10dc35e0b1a8aa9720b26
+      https://github.com/purescript/package-sets/releases/download/psc-0.15.2-20220706/packages.dhall sha256:7a24ebdbacb2bfa27b2fc6ce3da96f048093d64e54369965a2a7b5d9892b6031
 
 let overrides = {=}
 
@@ -35,7 +35,31 @@ let additions =
           , "validation"
           ]
         , repo = "https://github.com/input-output-hk/purescript-markdown"
-        , version = "022d8afd0d9e0ef8114da9e9ef5a67d9ffc86a29"
+        , version = "3c5536d5cad663c0912bae89205dd1c8934d525b"
+        }
+      , undefined-or =
+        { dependencies =
+            [ "prelude"
+            , "control"
+            , "maybe"
+            ]
+        , repo =
+            "https://github.com/CarstenKoenig/purescript-undefined-or.git"
+        , version =
+            "5822ab71acc9ed276afd6fa96f1cb3135e376719"
+        }
+      , uuid =
+        { dependencies =
+          [ "prelude"
+          , "aff"
+          , "effect"
+          , "maybe"
+          , "partial"
+          , "spec"
+          , "strings"
+          ]
+        , repo = "https://github.com/megamaddu/purescript-uuid.git"
+        , version = "v9.0.0"
         }
       , json-helpers =
         { dependencies =

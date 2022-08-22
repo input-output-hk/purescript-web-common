@@ -1,6 +1,3 @@
-/*global exports, require*/
-"use strict";
-
-exports.toLocaleString = function (i) {
+export function toLocaleString(i) {
   return Number(i).toLocaleString();
-};
+}

@@ -9,41 +9,42 @@ module Analytics
 
 import Prelude
 
+import Control.Plus (empty)
 import Data.Argonaut.Core (Json)
 import Data.Argonaut.Encode.Aeson as E
 import Data.Maybe (Maybe(..))
 import Data.Traversable (for_)
 import Data.Tuple.Nested ((/\))
-import Data.Undefinable (Undefinable, toUndefinable)
+import Data.UndefinedOr (UndefinedOr, toUndefined)
 import Effect (Effect)
 import Effect.Uncurried (EffectFn2, EffectFn4, runEffectFn2, runEffectFn4)
 import Foreign.Object (Object)
 import Foreign.Object as Object
 
-foreign import trackEvent_ ::
-  EffectFn4 String (Undefinable String) (Undefinable String)
-    (Undefinable Number)
-    Unit
+foreign import trackEvent_
+  :: EffectFn4
+       String
+       (UndefinedOr String)
+       (UndefinedOr String)
+       (UndefinedOr Number)
+       Unit
 
-foreign import trackSegmentEvent_ ::
-  EffectFn2 String (Object Json) Unit
+foreign import trackSegmentEvent_
+  :: EffectFn2 String (Object Json) Unit
 
-type Event
-  =
+type Event =
   { action :: String
   , category :: Maybe String
   , label :: Maybe String
   , value :: Maybe Number
   }
 
-type SegmentEvent
-  =
+type SegmentEvent =
   { action :: String
   , payload :: Object Json
   }
 
-type TimingEvent
-  =
+type TimingEvent =
   { category :: String
   , variable :: String
   , miliseconds :: Number
@@ -62,9 +63,13 @@ trackEvent :: Event -> Effect Unit
 trackEvent { action, category, label, value } =
   runEffectFn4 trackEvent_
     action
-    (toUndefinable category)
-    (toUndefinable label)
-    (toUndefinable value)
+    (maybeToUndefined category)
+    (maybeToUndefined label)
+    (maybeToUndefined value)
+  where
+  maybeToUndefined :: forall a. Maybe a -> UndefinedOr a
+  maybeToUndefined Nothing = empty
+  maybeToUndefined (Just a) = toUndefined a
 
 trackSegmentEvent :: SegmentEvent -> Effect Unit
 trackSegmentEvent { action, payload } = runEffectFn2 trackSegmentEvent_ action

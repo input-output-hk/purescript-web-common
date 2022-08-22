@@ -1,8 +1,7 @@
 /*eslint-env node*/
 /*global exports gtag, analytics*/
-"use strict";
 
-exports.trackEvent_ = function (action, category, label, value) {
+export function trackEvent_(action, category, label, value) {
   // Google Analytics, the default.
   if (typeof gtag !== "undefined") {
     gtag("event", action, {
@@ -11,11 +10,11 @@ exports.trackEvent_ = function (action, category, label, value) {
       value: value,
     });
   }
-};
+}
 
-exports.trackSegmentEvent_ = function (action, payload) {
+export function trackSegmentEvent_(action, payload) {
   // Segment.com.
   if (typeof analytics !== "undefined") {
     analytics.track(action, payload);
   }
-};
+}

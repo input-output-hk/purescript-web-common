@@ -5,9 +5,11 @@ module Component.Input.View
   ) where
 
 import Prelude
+
 import Component.Input.Types (Input, InputType(..))
-import Data.Maybe (Maybe(..), isNothing, maybe)
+import DOM.HTML.Indexed.AutocompleteType (AutocompleteType(..))
 import Data.Foldable (foldMap)
+import Data.Maybe (Maybe(..), isNothing, maybe)
 import Halogen as H
 import Halogen.Css (classNames)
 import Halogen.HTML as HH
@@ -16,7 +18,7 @@ import Halogen.HTML.Properties as HP
 
 defaultInput :: forall action. Input action
 defaultInput =
-  { autocomplete: false
+  { autocomplete: AutocompleteOff
   , id: ""
   , inputType: Text
   , invalid: false
