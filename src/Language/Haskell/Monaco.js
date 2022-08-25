@@ -1,9 +1,6 @@
-/*eslint-env node*/
-"use strict";
-
 // you can play with this at https://microsoft.github.io/monaco-editor/monarch.html
 // just paste it in and at the bottom `return haskell;`
-exports.monarchTokensProvider_ = function () {
+export function monarchTokensProvider_() {
   return {
     // Set defaultToken to invalid to see what you do not tokenize yet
     defaultToken: "invalid",
@@ -203,7 +200,7 @@ exports.monarchTokensProvider_ = function () {
       ],
     },
   };
-};
+}
 const purple = "#832DC4";
 const orange = "#EB4A22";
 const darkGreen = "#007600";
@@ -213,7 +210,7 @@ const red = "#EB2256";
 const grey = "#AAAAAA";
 const black = "#000000";
 
-exports.haskellDaylightTheme_ = {
+export const haskellDaylightTheme_ = {
   base: "vs",
   inherit: true,
   rules: [

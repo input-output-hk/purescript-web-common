@@ -3,15 +3,15 @@ module Component.Input.Types
   , Input
   ) where
 
+import DOM.HTML.Indexed.AutocompleteType (AutocompleteType)
 import Data.Maybe (Maybe)
 
 data InputType
   = Text
   | Numeric
 
-type Input action
-  =
-  { autocomplete :: Boolean
+type Input action =
+  { autocomplete :: AutocompleteType
   , id :: String
   , inputType :: InputType
   , invalid :: Boolean

@@ -1,6 +1,6 @@
-const { isBrowser, isNode, isJsDom } = require("browser-or-node");
+import { isBrowser, isNode, isJsDom } from "browser-or-node";
 
-exports.detectEnvironment = (browser) => (nodejs) => () => {
+export const detectEnvironment = (browser) => (nodejs) => () => {
   if (isNode || isJsDom) {
     return nodejs;
   } else if (isBrowser) {

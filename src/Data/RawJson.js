@@ -1,11 +1,7 @@
-/*eslint-env node*/
-/*global exports gtag*/
-"use strict";
-
-exports._pretty = function (str) {
+export function _pretty(str) {
   return JSON.stringify(JSON.parse(str), null, 2);
-};
+}
 
-exports.unsafeStringify = function (a) {
+export function unsafeStringify(a) {
   return JSON.stringify(a);
-};
+}

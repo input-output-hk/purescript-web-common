@@ -38,7 +38,7 @@ import Component.Popper
 import Control.Monad.Maybe.Trans (MaybeT(..), runMaybeT)
 import Control.MonadPlus (guard)
 import Data.Filterable (filterMap)
-import Data.Foldable (for_, and)
+import Data.Foldable (and, for_)
 import Data.Int (toNumber)
 import Data.Lens (assign, set, use)
 import Data.Traversable (for, traverse)
@@ -52,6 +52,7 @@ import Halogen
   , Slot
   , get
   , getHTMLElementRef
+  , getRef
   , liftEffect
   , mkComponent
   , modify_
@@ -61,10 +62,10 @@ import Halogen.HTML (ComponentHTML, PlainHTML, slot, text)
 import Halogen.Query.Event.Extra (eventListenerEffect)
 import Halogen.Subscription as HS
 import Type.Proxy (Proxy(..))
+import Web.DOM.Element (DOMRect, Element, getBoundingClientRect)
 import Web.Event.Event (EventType(..))
-import Web.HTML (HTMLElement, window)
+import Web.HTML (window)
 import Web.HTML.HTMLDocument (toEventTarget)
-import Web.HTML.HTMLElement (DOMRect, getBoundingClientRect)
 import Web.HTML.Window (document)
 import Web.UIEvent.MouseEvent as MouseEvent
 
@@ -161,10 +162,10 @@ handleAction (OnNewInput input) = do
   when active forceUpdatePopper
 
 handleAction Open = do
-  mHintElem <- getHTMLElementRef hintRef
-  mPopoutElem <- getHTMLElementRef popoutRef
+  mHintElem <- getRef hintRef
+  mPopoutElem <- getRef popoutRef
   let
-    mElements :: Maybe (Array HTMLElement)
+    mElements :: Maybe (Array Element)
     mElements = (\a b -> [ a, b ]) <$> mHintElem <*> mPopoutElem
   mGlobalClickSubscription <- traverse
     (H.subscribe <=< liftEffect <<< clickOutsideEventSource)
@@ -188,8 +189,7 @@ handleAction Toggle = do
   else
     handleAction Open
 
-type Point2D
-  = { x :: Number, y :: Number }
+type Point2D = { x :: Number, y :: Number }
 
 outside :: DOMRect -> Point2D -> Boolean
 outside { top, bottom, left, right } { x, y } = x < left || x > right
@@ -206,7 +206,7 @@ outside { top, bottom, left, right } { x, y } = x < left || x > right
 -- (as you don't need to manually add and remove the event listener)
 -- but it had a problem of not being able to perform effects, so we couldn't recalculate
 -- the client rect on each click.
-clickOutsideEventSource :: Array HTMLElement -> Effect (HS.Emitter Action)
+clickOutsideEventSource :: Array Element -> Effect (HS.Emitter Action)
 clickOutsideEventSource elements = do
   doc <- document =<< window
   pure

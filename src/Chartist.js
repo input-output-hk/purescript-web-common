@@ -1,30 +1,27 @@
-/*global exports, require*/
-"use strict";
+import Chartist from "chartist";
+import "chartist-plugin-tooltips";
+import "chartist-plugin-axistitle";
 
-var Chartist = require("chartist");
-require("chartist-plugin-tooltips");
-require("chartist-plugin-axistitle");
+export const tooltipPlugin = Chartist.plugins.tooltip();
 
-exports.tooltipPlugin = Chartist.plugins.tooltip();
+export const axisTitlePlugin = Chartist.plugins.ctAxisTitle;
 
-exports.axisTitlePlugin = Chartist.plugins.ctAxisTitle;
-
-exports.intAutoScaleAxis = {
+export const intAutoScaleAxis = {
   type: Chartist.AutoScaleAxis,
   onlyInteger: true,
 };
 
-exports._updateData = function (chart, newData) {
+export function _updateData(chart, newData) {
   chart.update(newData);
-};
+}
 
 // Chartist does a resize when you call update with no new data. I
 // find that a bit weird and want to separate those behaviours into
 // two separately-named calls in PureScript-space.
-exports._resize = function (chart) {
+export function _resize(chart) {
   chart.update();
-};
+}
 
-exports._barChart = function (element, options) {
+export function _barChart(element, options) {
   return new Chartist.Bar(element, {}, options, {});
-};
+}

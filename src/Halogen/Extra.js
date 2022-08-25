@@ -1,8 +1,3 @@
-/*eslint-env node*/
-/*global exports global*/
-
-"use strict";
-
-exports.scrollIntoView_ = function (element) {
+export function scrollIntoView_(element) {
   element.scrollIntoView();
-};
+}

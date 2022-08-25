@@ -14,20 +14,19 @@ module Web.DOM.ResizeObserver
   ) where
 
 import Prelude
+
 import Effect (Effect)
 import Web.DOM (Element)
-import Web.HTML.HTMLElement (DOMRect)
+import Web.DOM.Element (DOMRect)
 
 foreign import data ResizeObserver :: Type
 
-type ResizeObserverSize
-  =
+type ResizeObserverSize =
   { inlineSize :: Number
   , blockSize :: Number
   }
 
-type ResizeObserverEntry
-  =
+type ResizeObserverEntry =
   { target :: Element
   , contentRect :: DOMRect
   , borderBoxSize :: ResizeObserverSize

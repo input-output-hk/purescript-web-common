@@ -1,4 +1,4 @@
-exports.getAnimations_ = function (element) {
+export function getAnimations_(element) {
   // If the browser does not implement the Web Animation API
   // we return an empty array instead of failing.
   if ("getAnimations" in element) {
@@ -6,16 +6,16 @@ exports.getAnimations_ = function (element) {
   } else {
     return [];
   }
-};
+}
 
-exports.getAnimationName = function (animation) {
+export function getAnimationName(animation) {
   return animation.animationName;
-};
+}
 
-exports.setOnFinishHandler_ = function (animation, cb) {
+export function setOnFinishHandler_(animation, cb) {
   animation.onfinish = cb;
-};
+}
 
-exports.animationFinished_ = function (animation) {
+export function animationFinished_(animation) {
   return animation.finished;
-};
+}

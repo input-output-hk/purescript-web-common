@@ -1,7 +1,7 @@
-exports._setItem = function (key, value) {
+export function _setItem(key, value) {
   window.sessionStorage.setItem(key, value);
-};
+}
 
-exports._getItem = function (key) {
+export function _getItem(key) {
   return window.sessionStorage.getItem(key);
-};
+}

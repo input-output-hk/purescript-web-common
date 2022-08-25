@@ -1,7 +1,4 @@
-/*global FileReader, exports*/
-"use strict";
-
-exports._readFileFromDragEvent = function (onLoad, onError, e) {
+export function _readFileFromDragEvent(onLoad, onError, e) {
   var i, item, files, file, reader;
 
   files = [];
@@ -31,4 +28,4 @@ exports._readFileFromDragEvent = function (onLoad, onError, e) {
   return function canceler(error) {
     reader.abort();
   };
-};
+}

@@ -1,41 +1,36 @@
-/*eslint-env node*/
-/*global exports global*/
-
-"use strict";
-
-exports.isWarning_ = function (severity) {
+export function isWarning_(severity) {
   return severity == 4;
-};
+}
 
-exports.isError_ = function (severity) {
+export function isError_(severity) {
   return severity == 8;
-};
+}
 
-exports.getMonaco = function () {
-  return global.monaco;
-};
+export function getMonaco() {
+  return globalThis.monaco;
+}
 
-exports.registerLanguage_ = function (monaco, language) {
+export function registerLanguage_(monaco, language) {
   monaco.languages.register(language);
-};
+}
 
-exports.defineTheme_ = function (monaco, theme) {
+export function defineTheme_(monaco, theme) {
   monaco.editor.defineTheme(theme.name, theme.themeData);
-};
+}
 
-exports.setMonarchTokensProvider_ = function (monaco, languageId, languageDef) {
+export function setMonarchTokensProvider_(monaco, languageId, languageDef) {
   return monaco.languages.setMonarchTokensProvider(languageId, languageDef);
-};
+}
 
-exports.setModelMarkers_ = function (monaco, model, owner, markers) {
+export function setModelMarkers_(monaco, model, owner, markers) {
   monaco.editor.setModelMarkers(model, owner, markers);
-};
+}
 
-exports.getModelMarkers_ = function (monaco, model) {
+export function getModelMarkers_(monaco, model) {
   return monaco.editor.getModelMarkers({ resource: model.uri });
-};
+}
 
-exports.create_ = function (monaco, nodeId, languageId) {
+export function create_(monaco, nodeId, languageId) {
   const editor = monaco.editor.create(nodeId, {
     language: languageId,
     minimap: {
@@ -48,93 +43,85 @@ exports.create_ = function (monaco, nodeId, languageId) {
   });
 
   return editor;
-};
+}
 
-exports.setTheme_ = function (monaco, themeName) {
+export function setTheme_(monaco, themeName) {
   monaco.editor.setTheme(themeName);
-};
+}
 
-exports.onDidChangeContent_ = function (editor, handler) {
+export function onDidChangeContent_(editor, handler) {
   editor.getModel().onDidChangeContent(function (event) {
     handler(event)();
   });
-};
+}
 
-exports.addExtraTypeScriptLibsJS_ = function (monaco) {
-  global.monacoExtraTypeScriptLibs.forEach(function ([dts, dtsFilename]) {
+export function addExtraTypeScriptLibsJS_(monaco) {
+  globalThis.monacoExtraTypeScriptLibs.forEach(function ([dts, dtsFilename]) {
     monaco.languages.typescript.typescriptDefaults.addExtraLib(
       dts,
       dtsFilename
     );
   });
-};
+}
 
-exports.setStrictNullChecks_ = function (monaco, bool) {
+export function setStrictNullChecks_(monaco, bool) {
   var compilerOptions =
     monaco.languages.typescript.typescriptDefaults.getCompilerOptions();
   compilerOptions["strictNullChecks"] = bool;
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
     compilerOptions
   );
-};
+}
 
-exports.getDecorationRange_ = function (editor, identifier) {
+export function getDecorationRange_(editor, identifier) {
   return editor.getDecorationRange(identifier);
-};
+}
 
-exports.setDeltaDecorations_ = function (
-  editor,
-  oldDecorations,
-  newDecorations
-) {
+export function setDeltaDecorations_(editor, oldDecorations, newDecorations) {
   return editor.deltaDecorations(oldDecorations, newDecorations);
-};
+}
 
-exports.getModel_ = function (editor) {
+export function getModel_(editor) {
   return editor.getModel();
-};
+}
 
-exports.getEditorId_ = function (editor) {
+export function getEditorId_(editor) {
   return editor.getId();
-};
+}
 
-exports.getValue_ = function (model) {
+export function getValue_(model) {
   return model.getValue();
-};
+}
 
-exports.setValue_ = function (model, value) {
+export function setValue_(model, value) {
   return model.setValue(value);
-};
+}
 
-exports.getLineCount_ = function (model) {
+export function getLineCount_(model) {
   return model.getLineCount();
-};
+}
 
-exports.setTokensProvider_ = function (monaco, languageId, provider) {
+export function setTokensProvider_(monaco, languageId, provider) {
   return monaco.languages.setTokensProvider(languageId, provider);
-};
+}
 
-exports.completionItemKind_ = function (name) {
+export function completionItemKind_(name) {
   return monaco.languages.CompletionItemKind[name];
-};
+}
 
-exports.markerSeverity_ = function (name) {
+export function markerSeverity_(name) {
   return monaco.MarkerSeverity[name];
-};
+}
 
-exports.registerHoverProvider_ = function (monaco, languageId, provider) {
+export function registerHoverProvider_(monaco, languageId, provider) {
   return monaco.languages.registerHoverProvider(languageId, provider);
-};
+}
 
-exports.registerCompletionItemProvider_ = function (
-  monaco,
-  languageId,
-  provider
-) {
+export function registerCompletionItemProvider_(monaco, languageId, provider) {
   return monaco.languages.registerCompletionItemProvider(languageId, provider);
-};
+}
 
-exports.registerCodeActionProvider_ = function (
+export function registerCodeActionProvider_(
   monaco,
   languageId,
   actionProvider
@@ -143,9 +130,9 @@ exports.registerCodeActionProvider_ = function (
     languageId,
     actionProvider
   );
-};
+}
 
-exports.registerDocumentFormattingEditProvider_ = function (
+export function registerDocumentFormattingEditProvider_(
   monaco,
   languageId,
   formatter
@@ -154,57 +141,57 @@ exports.registerDocumentFormattingEditProvider_ = function (
     languageId,
     formatter
   );
-};
+}
 
-exports.setPosition_ = function (editor, position) {
+export function setPosition_(editor, position) {
   editor.setPosition(position);
-};
+}
 
-exports.revealRange_ = function (editor, range) {
+export function revealRange_(editor, range) {
   editor.revealRange(range);
-};
+}
 
-exports.revealRangeInCenter_ = function (editor, range) {
+export function revealRangeInCenter_(editor, range) {
   editor.revealRangeInCenter(range);
-};
+}
 
-exports.revealRangeAtTop_ = function (editor, range) {
+export function revealRangeAtTop_(editor, range) {
   editor.revealRangeAtTop(range);
-};
+}
 
-exports.revealRangeNearTop_ = function (editor, range) {
+export function revealRangeNearTop_(editor, range) {
   editor.revealRangeNearTop(range);
-};
+}
 
-exports.revealLine_ = function (editor, lineNumber) {
+export function revealLine_(editor, lineNumber) {
   editor.revealLine(lineNumber);
-};
+}
 
-exports.layout_ = function (editor) {
+export function layout_(editor) {
   editor.layout();
-};
+}
 
-exports.focus_ = function (editor) {
+export function focus_(editor) {
   editor.focus();
-};
+}
 
-exports.enableVimBindings_ = function (editor) {
+export function enableVimBindings_(editor) {
   var statusNode = document.getElementById("statusline");
-  var vimMode = global.initVimMode(editor, statusNode);
+  var vimMode = globalThis.initVimMode(editor, statusNode);
   return () => vimMode.dispose();
-};
+}
 
-exports.enableEmacsBindings_ = function (editor) {
-  var emacsMode = new global.EmacsExtension(editor);
+export function enableEmacsBindings_(editor) {
+  var emacsMode = new globalThis.EmacsExtension(editor);
   emacsMode.start();
   return () => emacsMode.dispose();
-};
+}
 
-exports.completionItemKindEq_ = function (a, b) {
+export function completionItemKindEq_(a, b) {
   return a == b;
-};
+}
 
-exports.completionItemKindOrd_ = function (lt, eq, gt, a, b) {
+export function completionItemKindOrd_(lt, eq, gt, a, b) {
   if (a < b) {
     return lt;
   } else if (a == b) {
@@ -212,12 +199,12 @@ exports.completionItemKindOrd_ = function (lt, eq, gt, a, b) {
   } else {
     return gt;
   }
-};
+}
 
-exports.setReadOnly_ = function (editor, val) {
+export function setReadOnly_(editor, val) {
   editor.updateOptions({ readOnly: val });
-};
+}
 
-exports.dispose_ = function (disposable) {
+export function dispose_(disposable) {
   disposable.dispose();
-};
+}

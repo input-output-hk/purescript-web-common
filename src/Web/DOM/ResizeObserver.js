@@ -1,14 +1,12 @@
-"use strict";
-
-exports.resizeObserver = function (cb) {
+export function resizeObserver(cb) {
   return function () {
     return new ResizeObserver(function (entries, observer) {
       return cb(entries)(observer)();
     });
   };
-};
+}
 
-exports._observe = function (element) {
+export function _observe(element) {
   return function (config) {
     return function (observer) {
       return function () {
@@ -16,18 +14,18 @@ exports._observe = function (element) {
       };
     };
   };
-};
+}
 
-exports.unobserve = function (element) {
+export function unobserve(element) {
   return function (observer) {
     return function () {
       return observer.unobserve(element);
     };
   };
-};
+}
 
-exports.disconnect = function (observer) {
+export function disconnect(observer) {
   return function () {
     return observer.disconnect();
   };
-};
+}

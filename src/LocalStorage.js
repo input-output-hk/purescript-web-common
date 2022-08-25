@@ -1,20 +1,16 @@
-/*eslint-env node*/
-/*global exports*/
-"use strict";
-
-exports._setItem = function (key, value) {
+export function _setItem(key, value) {
   window.localStorage.setItem(key, value);
-};
+}
 
-exports._removeItem = function (key) {
+export function _removeItem(key) {
   window.localStorage.removeItem(key);
-};
+}
 
-exports._getItem = function (key) {
+export function _getItem(key) {
   return window.localStorage.getItem(key);
-};
+}
 
-exports._listen = function (toRawStorageEvent, callback) {
+export function _listen(toRawStorageEvent, callback) {
   var onStorageEvent = function (event) {
     if (event.storageArea === window.localStorage) {
       var rawStorageEvent = toRawStorageEvent(
@@ -36,9 +32,9 @@ exports._listen = function (toRawStorageEvent, callback) {
 
   window.addEventListener("storage", onStorageEvent, false);
   return canceler;
-};
+}
 
-exports._getItems = function (toRawStorageEvent) {
+export function _getItems(toRawStorageEvent) {
   var events = [];
   var i;
 
@@ -50,4 +46,4 @@ exports._getItems = function (toRawStorageEvent) {
   }
 
   return events;
-};
+}
