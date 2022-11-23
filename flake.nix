@@ -19,6 +19,7 @@
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tullia.url = "github:input-output-hk/tullia";
   };
 
   outputs =
@@ -29,6 +30,7 @@
     , pre-commit-hooks
     , rnix-lsp
     , flake-utils
+    , tullia
     }:
     (flake-utils.lib.eachDefaultSystem
       (system:
@@ -166,6 +168,7 @@
           inherit (pre-commit-check) shellHook;
         };
       }
+      // tullia.fromSimple system (import ./tullia.nix)
       )
     );
 }
